@@ -1,0 +1,260 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 9, 1\r\n"
+    "#pragma code_page(1252)\r\n"
+    "#endif //_WIN32\r\n"
+    "#include ""res\\auto_nav.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""         // Standard components\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON    DISCARDABLE     "res\\auto_nav.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOG DISCARDABLE  0, 0, 235, 55
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About auto_nav"
+FONT 8, "MS Sans Serif"
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
+    LTEXT           "auto_nav Version 1.0",IDC_STATIC,40,10,119,8,
+                    SS_NOPREFIX
+    LTEXT           "Copyright (C) 2005",IDC_STATIC,40,25,119,8
+    DEFPUSHBUTTON   "OK",IDOK,178,7,50,14,WS_GROUP
+END
+
+IDD_AUTO_NAV_DIALOG DIALOGEX 0, 0, 333, 309
+STYLE DS_MODALFRAME | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | 
+    WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "auto_nav"
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDC_FileName_str,184,16,135,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "S&ave",IDC_Save,282,45,37,14
+    PUSHBUTTON      "L&oad",IDC_Load,184,45,50,14
+    EDITTEXT        IDC_Add_Training_str,234,59,85,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "Add Trai&ning",IDC_Add,184,59,50,14
+    EDITTEXT        IDC_Type_str,289,74,30,14,ES_CENTER | ES_AUTOHSCROLL
+    PUSHBUTTON      "T&ype",IDC_Type,184,73,50,14
+    DEFPUSHBUTTON   "&Exit",IDOK,120,22,50,14
+    PUSHBUTTON      "Set Training &Examples File Name",IDC_SetFileName,184,
+                    31,135,14
+    PUSHBUTTON      "&View",IDC_View,184,87,31,14
+    EDITTEXT        IDC_vtype,289,88,30,14,ES_CENTER | ES_AUTOHSCROLL | 
+                    ES_READONLY
+    PUSHBUTTON      "Reset &pos",IDC_Reset,234,45,42,14
+    PUSHBUTTON      "&Training",IDC_Training,183,200,136,15
+    PUSHBUTTON      "&Run",IDC_Run,120,7,50,14
+    EDITTEXT        IDC_alpha,251,166,24,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_eta,291,166,27,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_RFileName,7,7,112,14,ES_AUTOHSCROLL
+    LTEXT           "Alpha",IDC_STATIC,230,169,19,8
+    LTEXT           "Eta",IDC_STATIC,277,169,11,8
+    PUSHBUTTON      "&Create NN",IDC_CreateNN,183,130,137,14
+    LTEXT           "Input",IDC_STATIC,279,116,16,8
+    LTEXT           "Output",IDC_STATIC,186,117,20,8
+    LTEXT           "Hidden",IDC_STATIC,232,117,23,8
+    EDITTEXT        IDC_NrIN,297,113,23,14,ES_CENTER | ES_AUTOHSCROLL
+    EDITTEXT        IDC_NrOUT,210,114,22,14,ES_CENTER | ES_AUTOHSCROLL
+    EDITTEXT        IDC_NrHidden,258,114,18,14,ES_CENTER | ES_AUTOHSCROLL
+    EDITTEXT        IDC_Error,201,166,28,14,ES_AUTOHSCROLL
+    LTEXT           "Error",IDC_STATIC,184,169,16,8
+    LTEXT           "Predicted direction",IDC_STATIC,7,24,60,8
+    EDITTEXT        IDC_pdirection,68,23,40,14,ES_CENTER | ES_AUTOHSCROLL | 
+                    ES_READONLY
+    GROUPBOX        "Examples Mangement",IDC_STATIC,175,7,151,99
+    LTEXT           "Direction",IDC_STATIC,258,90,30,8
+    LTEXT           "Direction",IDC_STATIC,244,76,28,8
+    GROUPBOX        "Network Management",IDC_STATIC,175,105,151,170
+    EDITTEXT        IDC_NFileName,183,239,135,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "Network &Load",IDC_NLoad,184,255,70,14
+    PUSHBUTTON      "Network &Save",IDC_NSave,254,255,64,14
+    PUSHBUTTON      "Delete",IDC_Delete,224,87,29,14
+    EDITTEXT        IDC_TMessage,183,220,134,14,ES_CENTER | ES_AUTOHSCROLL | 
+                    ES_READONLY
+    EDITTEXT        IDC_NrSteps,278,184,40,14,ES_CENTER | ES_AUTOHSCROLL
+    LTEXT           "Nr of Steps",IDC_STATIC,216,189,34,8
+    PUSHBUTTON      "&Delete NN",IDC_NNDelete,183,147,137,14
+    EDITTEXT        IDC_EDIT1,7,288,40,14,ES_CENTER | ES_AUTOHSCROLL | 
+                    ES_READONLY | ES_NUMBER
+    EDITTEXT        IDC_EDIT2,47,288,40,14,ES_CENTER | ES_AUTOHSCROLL | 
+                    ES_READONLY | ES_NUMBER
+    EDITTEXT        IDC_EDIT3,87,288,40,14,ES_CENTER | ES_AUTOHSCROLL | 
+                    ES_READONLY | ES_NUMBER
+    EDITTEXT        IDC_EDIT4,128,288,40,14,ES_CENTER | ES_AUTOHSCROLL | 
+                    ES_READONLY | ES_NUMBER
+    EDITTEXT        IDC_EDIT5,168,288,40,14,ES_CENTER | ES_AUTOHSCROLL | 
+                    ES_READONLY | ES_NUMBER
+END
+
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904B0"
+        BEGIN
+            VALUE "CompanyName", "\0"
+            VALUE "FileDescription", "auto_nav MFC Application\0"
+            VALUE "FileVersion", "1, 0, 0, 1\0"
+            VALUE "InternalName", "auto_nav\0"
+            VALUE "LegalCopyright", "Copyright (C) 2005\0"
+            VALUE "LegalTrademarks", "\0"
+            VALUE "OriginalFilename", "auto_nav.EXE\0"
+            VALUE "ProductName", "auto_nav Application\0"
+            VALUE "ProductVersion", "1, 0, 0, 1\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+#endif    // !_MAC
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 228
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 48
+    END
+
+    IDD_AUTO_NAV_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 326
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 302
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_ABOUTBOX            "&About auto_nav..."
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE 9, 1
+#pragma code_page(1252)
+#endif //_WIN32
+#include "res\auto_nav.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"         // Standard components
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
