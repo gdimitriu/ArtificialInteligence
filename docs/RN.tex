@@ -1,0 +1,352 @@
+
+\documentclass{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%TCIDATA{OutputFilter=LATEX.DLL}
+%TCIDATA{Version=5.00.0.2552}
+%TCIDATA{<META NAME="SaveForMode" CONTENT="1">}
+%TCIDATA{Created=Thursday, June 16, 2005 19:49:44}
+%TCIDATA{LastRevised=Thursday, June 16, 2005 21:19:52}
+%TCIDATA{<META NAME="GraphicsSave" CONTENT="32">}
+%TCIDATA{<META NAME="DocumentShell" CONTENT="Standard LaTeX\Blank - Standard LaTeX Article">}
+%TCIDATA{CSTFile=40 LaTeX article.cst}
+
+\setlength{\textheight}{8in}
+\setlength{\textwidth}{6in}
+\setlength{\oddsidemargin}{0mm}
+\setlength{\evensidemargin}{0mm}
+\setlength{\marginparwidth}{0mm}
+\setlength{\marginparsep}{0mm}
+\newtheorem{theorem}{Teorema}
+\newtheorem{acknowledgement}[theorem]{Acknowledgement}
+\newtheorem{algorithm}[theorem]{Algorithm}
+\newtheorem{axiom}[theorem]{Axiom}
+\newtheorem{case}[theorem]{Case}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{conclusion}[theorem]{Conclusion}
+\newtheorem{condition}[theorem]{Condition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{criterion}[theorem]{Criterion}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{problem}[theorem]{Problem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{solution}[theorem]{Solution}
+\newtheorem{summary}[theorem]{Summary}
+\newenvironment{proof}[1][Proof]{\noindent\textbf{Proof} }{\ \rule{0.5em}{0.5em}}
+\input{tcilatex}
+
+\begin{document}
+
+\title{Neural Network Algorithms}
+\author{Dimitriu Gabriel}
+\maketitle
+\tableofcontents
+
+\section{Perceptron}
+
+\subsection{Theory}
+
+\begin{theorem}
+If $S_{N}$ is linear separable then the algorithm compute in a finite number
+of epochs a memory which corect divided the examples from $S_{N}$.
+\end{theorem}
+
+\subsection{Original}
+
+input S$_{N}$
+
+initiazation: gata=true,w,$\theta $ Uniform(-1,1)
+
+repeat
+
+\qquad gata=true
+
+\qquad for i=1 to N do
+
+\qquad \qquad put X$_{i}$ la F$_{x}$
+
+\qquad \qquad compute $h(x_{i})=\sum_{j=1}^{n}x_{i}^{(j)}w_{j}$
+
+\qquad \qquad compute $Y_{i}=f(h(x_{i}))$
+
+\qquad \qquad if $y_{i}^{\prime }\neq y_{i}$ then
+
+\qquad \qquad \qquad if $y_{i}^{\prime }==-1$ then
+
+$\qquad \qquad \qquad \qquad w=w+x_{i}$
+
+$\qquad \qquad \qquad \qquad \theta =\theta -1$
+
+\qquad \qquad \qquad else
+
+\qquad \qquad \qquad \qquad $w=w-x_{i}$
+
+\qquad \qquad \qquad \qquad $\theta =\theta +1$
+
+\qquad \qquad \qquad endif
+
+\qquad \qquad \qquad gata=false
+
+\qquad \qquad endif
+
+\qquad endfor
+
+until(gata)
+
+\subsection{Input the threashold and the corect answer}
+
+input S$_{N}$
+
+init: gata=true,w,$\theta $ Uniform(-1,1)
+
+compute
+
+\qquad\ if $y_{i}^{\prime }=1$ then
+
+$\qquad \qquad z_{i}=(1,x_{i})^{T}$
+
+\qquad else
+
+\qquad $\qquad z_{i}=(-1,-x_{i})^{T}$
+
+\qquad endif
+
+\qquad $W=(-\theta ,w)$
+
+repeat
+
+\qquad gata=true
+
+\qquad for i=1 to N do
+
+\qquad \qquad if $W^{T}z_{i}\leq 0$ then
+
+\qquad \qquad \qquad gata=false
+
+\qquad \qquad \qquad $W=W+z_{i}$
+
+\qquad \qquad endif
+
+\qquad endfor
+
+until(gata)
+
+\section{Grenville for pseudo inverse}
+
+$A=(a_{1},...,a_{n})\,\,,\,\,\,A_{k}=(a_{1},...,a_{k})\,\,;\,\,A_{1}=(a_{1})$%
+.
+
+$A_{1}^{+}=a_{1}^{+}$.
+
+if $a_{1}\neq 0$ then
+
+\[
+\qquad a_{1}^{+}=\frac{a_{1}^{T}}{\left\Vert a_{1}\right\Vert ^{2}} 
+\]
+
+else
+
+\[
+\qquad a_{1}^{+}=0^{T} 
+\]
+
+endif
+
+for k=2 to n do
+
+\qquad if $(I-A_{k-1}A_{k-1}^{+})a_{k}\neq 0$ then
+
+\[
+\qquad \qquad p_{k}=\frac{(I-A_{k-1}A_{k-1}^{+})a_{k}}{\left\Vert
+(I-A_{k-1}A_{k-1}^{+})a_{k}\right\Vert ^{2}} 
+\]
+
+\qquad else
+
+\[
+p_{k}=\frac{(A_{k-1}^{+})^{T}A_{k-1}^{+}a_{k}}{\left\Vert
+(A_{k-1}^{+})^{T}a_{k}\right\Vert ^{2}+1} 
+\]
+
+\qquad endif
+
+\[
+A_{k}^{+}=\left( 
+\begin{array}{c}
+A_{k-1}^{+}(I-a_{k}p_{k}^{T}) \\ 
+p_{k}%
+\end{array}%
+\right) 
+\]
+
+endfor
+
+\section{Memorie optimala MSE}
+
+\subsection{ADALINE batch}
+
+initialization: $C$ =stop condition, $w_{0}$ = Uniform(-1,1),k=0
+
+repeat
+
+\[
+w_{k+1}=w_{k}+\eta (k)(-\nabla _{w}F_{N}(w)|_{w=w_{k}}) 
+\]
+
+\qquad k=k+1
+
+until($C$)
+
+where\qquad $F_{N}(w)=\frac{1}{N}\sum_{i=1}^{N}(y_{i}^{\prime
+}-w^{T}x_{i})^{2}$
+
+and $\eta (k)$ is downto 0 \ or constant with low value.
+
+\subsection{ADALINE\ secquancial (Widrow-Hoff)}
+
+initialization: $C$=stop condition, $w_{0}$ = Uniform(-1,1)
+
+repeat
+
+\qquad for i=1 to N do
+
+\qquad \qquad apply $x_{i}$, make disponible $y_{i}^{\prime }$
+
+\qquad \qquad compute $y_{i}=w_{k}^{T}x_{i}$
+
+\qquad \qquad compute $\delta _{i}$
+
+\qquad \qquad apply reactualization $w_{k+1}=w_{k}+\eta (k)\delta _{i}x_{i}$
+
+\qquad end for
+
+\qquad k=k+1
+
+until($C$)
+
+\subsection{MADALINE batch}
+
+initialization: $C$ =stop condition, $w_{0}$ = Uniform(-1,1),k=0
+
+repeat
+
+\[
+w_{k+1}=w_{k}+\eta (k)\sum_{i=1}^{n}x_{i}\delta _{i}^{T} 
+\]
+
+\qquad k=k+1
+
+until($C$)
+
+where\qquad $F_{N}(w)=\frac{1}{N}\sum_{i=1}^{N}(y_{i}^{\prime
+}-w^{T}x_{i})^{2}$
+
+and $\eta (k)$ is downto 0 \ or constant with low value.
+
+\subsection{MADALINE\ secquancial}
+
+initialization: $C$=stop condition, $w_{0}$ = Uniform(-1,1), $\eta (k)$
+
+repeat
+
+\qquad for i=1 to N do
+
+\qquad \qquad apply $x_{i}$, make disponible $y_{i}^{\prime }$
+
+\qquad \qquad compute $y_{i}=w_{k}^{T}x_{i}$
+
+\qquad \qquad compute $\delta _{i}$
+
+\qquad \qquad apply reactualization $w_{k+1}=w_{k}+\eta (k)x_{i}\delta
+_{i}^{T}$
+
+\qquad end for
+
+\qquad k=k+1
+
+until($C$)
+
+\subsection{Back Propagation}
+
+input: $S_{N}$
+
+initialization: $C$,v,w=Uniform(-1,1)
+
+repeat
+
+\qquad for k=1 to N do
+
+\qquad \qquad apply $x_{k}$ to F$_{x},$ make disponible $y_{k}$ to F$_{y}$
+
+\qquad \qquad compute\qquad\ $h_{q}^{(k)}=\sum_{i=1}^{n}x_{k}^{(i)}v_{iq}$
+
+\qquad \qquad compute\qquad $f_{q}(h_{q}^{(k)}),\,\,q=1...p$
+
+\qquad \qquad compute\qquad $C_{j}^{(k)}=%
+\sum_{q=1}^{p}f_{q}(h_{q}^{(k)})w_{qj}$
+
+\qquad \qquad compute\qquad $y_{k}^{(j)}=f_{j}(C_{j}^{(k)})$
+
+\qquad \qquad compute\qquad $\varepsilon
+_{k}(v,w)=\sum_{j=1}^{m}(y_{j}^{\prime }-y_{k}^{(j)})^{2}$
+
+\qquad \qquad compute\qquad $\Delta w_{qj}=-\frac{\partial \varepsilon
+_{k}(v,w)}{\partial w_{qj}}$
+
+\qquad \qquad compute\qquad $w_{qj}=w_{qj}+\rho \Delta w_{qj}$
+
+\qquad \qquad compute\qquad $v_{iq}=-\frac{\partial \varepsilon _{k}(v,w)}{%
+\partial v_{iq}}$
+
+\qquad \qquad compute\qquad $v_{iq}=v_{iq}+\rho \Delta v_{iq}$
+
+\qquad endfor
+
+until($C$)
+
+normally: $f(u)=\frac{1}{1-\exp (-u)}$ and $f^{\prime }(u)=f(u)(1-f(u))$
+
+\section{Counter Propagation Network (CPN)}
+
+\subsection{K-means}
+
+input $X_{1},...,X_{N}$
+
+initialization: q=0,$z_{1}^{(0)},..,z_{k}^{(0)}\,$\ random selected from
+input data, $C_{i}^{(0)}=z_{i}^{(0)},N_{C_{i}}=1$, $C$ =stop condition
+
+while not$C$
+
+\qquad for i=1 to N do
+
+\qquad \qquad if $d(X_{i},z_{r}^{(q)})=\min_{1\leq s\leq
+k}d(X_{i},z_{s}^{(q)})$ then
+
+\begin{eqnarray*}
+C_{r}^{(q)} &=&C_{r}^{(q)}\cup \{X_{i}\} \\
+N_{C_{r}} &=&N_{C_{r}}+1
+\end{eqnarray*}
+
+\qquad \qquad end if
+
+\qquad end for
+
+\qquad for i=1 to k do%
+\[
+z_{i}^{(q+1)}=\frac{1}{N_{C_{i}}}\sum_{z\in C_{i}^{(q)}}z
+\]
+
+\qquad end for
+
+\qquad q=q+1
+
+end while
+
+\qquad 
+
+\end{document}
