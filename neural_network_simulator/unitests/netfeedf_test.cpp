@@ -31,8 +31,9 @@ TEST(NETFEEDFTestSuite,ZEROES_FORWARD) {
 	net.init_net();
 	net.init_inp(inputs);
 	net.forward();
+	net.set_temp(2);
 	matrixf outputs = net.get_outputs();
 	for (int i = 0 ;i < 10; i++) {
-		EXPECT_FLOAT_EQ(0.0,outputs(0,0,i))<<"Should be zero";
+		EXPECT_FLOAT_EQ(0.5,outputs(0,0,i))<<"Should be 0.5";
 	}
 }

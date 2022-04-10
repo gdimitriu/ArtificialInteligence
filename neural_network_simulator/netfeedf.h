@@ -25,6 +25,7 @@ public:
 	net_feedf();
 	net_feedf(int,int,int,int,int);
 	virtual ~net_feedf();
+	void set_temp(float);
 	//functie friend care afiseaza informatii despre o retea
 	void friend info_net(int,int,net_feedf&);
 	//functii comune

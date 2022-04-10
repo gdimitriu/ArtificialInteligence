@@ -7,7 +7,7 @@ HEADERS = # $(SOURCES:%.cpp=%.h)
 GENERAL_DEPENDENCIES = ../matrixf.o ../matrix.o
 NETWORKS =  ../netfeedf.o
 FLAGS = -std=gnu++11
-LIBS = -lgtest -lgtest_main -lpthread
+LIBS = -lgtest -lgtest_main -lpthread -lm
 EXECUTABLES = runTests
 all: $(OBJECTS) $(EXECUTABLES)
 

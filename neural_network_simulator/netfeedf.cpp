@@ -11,6 +11,7 @@
 
 #include "netfeedf.h"
 #include <stdio.h>
+#include <math.h>
 
 net_feedf::net_feedf() {
 	nr_hidd = 0;
@@ -44,8 +45,12 @@ net_feedf::~net_feedf() {
 		delete tab_test;
 }
 
+void net_feedf::set_temp(float value) {
+	temp = value;
+}
 float net_feedf::to(float value,float threshold) {
-	return 0.0;
+	float exponentiala = 1.0 + exp(-threshold*value);
+	return 1.0/exponentiala;
 }
 
 void net_feedf::forward(void) {
