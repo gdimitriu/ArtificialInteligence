@@ -25,8 +25,8 @@ public:
 	virtual void init_net();
 	virtual void forward();
 	virtual void backward();
-	virtual void save();
-	virtual void load_inf();
+	virtual int save(const char *);
+	virtual int load_inf(const char *);
 	//functia backward pentru 2 nivele ascunse si o singura harta de trasaturi in al noilea nivel ascuns
 	virtual void backward_1();
 	//functia backward pentru 2 nivele ascunse si mai multe harti de trasaturi in al doilea nivel ascuns

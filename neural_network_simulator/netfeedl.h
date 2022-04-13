@@ -25,8 +25,8 @@ public:
 	virtual void init_net();
 	virtual void forward();
 	virtual void backward();
-	virtual void save();
-	virtual void load_inf();
+	virtual int save(const char*);
+	virtual int load_inf(const char*);
 protected:
 	//dimensiunea patratului de conexiune la nivelul de intrare
 	int nr_latinp;

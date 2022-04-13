@@ -12,6 +12,13 @@
 #include "netfeedf.h"
 #include <stdio.h>
 #include <math.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <errno.h>
+#include <sys/stat.h>
+
+extern int errno;
+using namespace std;
 
 net_feedf::net_feedf() {
 	nr_hidd = 0;
@@ -29,6 +36,7 @@ net_feedf::net_feedf() {
 	M0 = 0;
 	M1 = 0;
 	L = 0;
+	LOADED = OFF;
 }
 
 net_feedf::net_feedf(int nr_hidd,int L,int M0,int M1 ,int N) : net_feedf() {
@@ -48,6 +56,7 @@ net_feedf::~net_feedf() {
 void net_feedf::set_temp(float value) {
 	temp = value;
 }
+
 float net_feedf::to(float value,float threshold) {
 	float exponentiala = 1.0 + exp(-threshold*value);
 	return 1.0/exponentiala;
@@ -255,34 +264,42 @@ void net_feedf::init_net() {
 	tp.init(1,1,N);
 	switch(nr_hidd) {
 	case 0:
-		wohi.init(1,N,L);
+		if (LOADED == OFF) {
+			wohi.init(1,N,L);
+		}
 		dwohi.init(1,N,L);
 		break;
 	case 1:
-		hid0.init(1,1,M0);
-		whin.init(1,M0,L);
-		dwhin.init(1,M0,L);
-		bhin.init(1,1,M0);
-		dbhin.init(1,1,M0);
-		wohi.init(1,N,M0);
+		if (LOADED == OFF) {
+			wohi.init(1,N,M0);
+			hid0.init(1,1,M0);
+			bhin.init(1,1,M0);
+			whin.init(1,M0,L);
+		}
 		dwohi.init(1,N,M0);
+		dwhin.init(1,M0,L);
+		dbhin.init(1,1,M0);
 		break;
 	case 2:
-		hid0.init(1,1,M0);
-		hid1.init(1,1,M1);
-		whin.init(1,M0,L);
+		if (LOADED == OFF) {
+			wohi.init(1,N,M1);
+			hid0.init(1,1,M0);
+			bhin.init(1,1,M0);
+			hid1.init(1,1,M1);
+			wh10.init(1,M1,M0);
+			whin.init(1,M0,L);
+		}
 		dwhin.init(1,M0,L);
-		bhin.init(1,1,M0);
 		dbhin.init(1,1,M0);
-		wh10.init(1,M1,M0);
 		dwh10.init(1,M1,M0);
 		bh10.init(1,1,M1);
 		dbh10.init(1,1,M1);
-		wohi.init(1,N,M1);
 		dwohi.init(1,N,M1);
 		break;
 	}
-	bohi.init(1,1,N);
+	if (LOADED == OFF) {
+		bohi.init(1,1,N);
+	}
 	dbohi.init(1,1,N);
 }
 
@@ -309,15 +326,100 @@ void net_feedf::free_net() {
 	dwohi.free_mat();
 	bohi.free_mat();
 	dbohi.free_mat();
+	LOADED = OFF;
 }
 
 //SAVE-LOADS
-void net_feedf::save() {
-
+int net_feedf::save(const char* path) {
+	int dFile = open(path,O_CREAT | O_RDWR );
+	chmod(path,S_IRUSR | S_IWUSR);
+	if (dFile <= 0) {
+		perror("Could not open file for write");
+		return -1;
+	}
+	write(dFile,&typenet,sizeof(char));
+	saveInternal_inf(dFile);
+	close(dFile);
+	return 0;
 }
 
-void net_feedf::load_inf() {
+void net_feedf::saveInternal_inf(int dFile) {
+	int size = strlen(name) + 1;
+	write(dFile,&size,sizeof(int));
+	write(dFile,name,sizeof(char)*size);
+	write(dFile,&nr_hidd,sizeof(int));
+	write(dFile,&L,sizeof(int));
+	write(dFile,&M0,sizeof(int));
+	write(dFile,&M1,sizeof(int));
+	write(dFile,&N,sizeof(int));
+	switch(nr_hidd) {
+	case 0:
+		wohi.save(dFile);
+		bohi.save(dFile);
+		break;
+	case 1:
+		wohi.save(dFile);
+		bohi.save(dFile);
+		hid0.save(dFile);
+		bhin.save(dFile);
+		whin.save(dFile);
+		break;
+	case 2:
+		wohi.save(dFile);
+		bohi.save(dFile);
+		hid0.save(dFile);
+		bhin.save(dFile);
+		hid1.save(dFile);
+		wh10.save(dFile);
+		whin.save(dFile);
+		break;
+	}
+}
 
+void net_feedf::loadInternal_inf(int dFile) {
+	int size;
+	read(dFile,&size,sizeof(int));
+	read(dFile,name,sizeof(char)*size);
+	read(dFile,&nr_hidd,sizeof(int));
+	read(dFile,&L,sizeof(int));
+	read(dFile,&M0,sizeof(int));
+	read(dFile,&M1,sizeof(int));
+	read(dFile,&N,sizeof(int));
+	switch(nr_hidd) {
+	case 0:
+		wohi.load(dFile);
+		bohi.load(dFile);
+		break;
+	case 1:
+		wohi.load(dFile);
+		bohi.load(dFile);
+		hid0.load(dFile);
+		bhin.load(dFile);
+		whin.load(dFile);
+		break;
+	case 2:
+		wohi.load(dFile);
+		bohi.load(dFile);
+		hid0.load(dFile);
+		bhin.load(dFile);
+		hid1.load(dFile);
+		wh10.load(dFile);
+		whin.load(dFile);
+		break;
+	}
+	LOADED = ON;
+}
+
+int net_feedf::load_inf(const char* path) {
+	int dFile = open(path,O_RDONLY);
+	if (dFile <= 0) {
+		perror("Could not open file for read");
+		return -1;
+	}
+	read(dFile,&typenet,sizeof(char));
+	loadInternal_inf(dFile);
+	close(dFile);
+	return 0;
 }
 
 void net_feedf::put_perf() {
@@ -326,10 +428,6 @@ void net_feedf::put_perf() {
 
 //WEIGHTS of the network
 void net_feedf::initweights() {
-
-}
-
-void net_feedf::load_weights() {
 
 }
 
