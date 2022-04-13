@@ -6,6 +6,7 @@
  */
 
 #include "matrix.h"
+#include <unistd.h>
 
 matrix::matrix(int dim0, int dim1, int dim2) {
 	this->dim0 = dim0;
@@ -60,4 +61,26 @@ void matrix::operator=(matrix& copy) {
 		for(int j = 0; j < dim1; j++)
 			for(int k = 0; k < dim2 ; k++)
 				this->m[i][j][k] = copy(i,j,k);
+}
+
+
+void matrix::save(int dFile) {
+	write(dFile,&dim0,sizeof(int));
+	write(dFile,&dim1,sizeof(int));
+	write(dFile,&dim2,sizeof(int));
+	for (int i = 0; i < dim0; i++)
+		for (int j = 0; j < dim1; j++)
+			for (int k = 0; k < dim2; k++)
+				write(dFile,&m[i][j][k],sizeof(int));
+}
+
+void matrix::load(int dFile) {
+	read(dFile,&dim0,sizeof(int));
+	read(dFile,&dim1,sizeof(int));
+	read(dFile,&dim2,sizeof(int));
+	allocate_matrix();
+	for (int i = 0; i < dim0; i++)
+		for (int j = 0; j < dim1; j++)
+			for (int k = 0; k < dim2; k++)
+				read(dFile,&m[i][j][k],sizeof(int));
 }

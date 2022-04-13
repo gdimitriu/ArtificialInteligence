@@ -30,8 +30,40 @@ TEST(NETFEEDFTestSuite,ZEROES_FORWARD) {
 	net.create();
 	net.init_net();
 	net.init_inp(inputs);
-	net.forward();
 	net.set_temp(2);
+	net.forward();
+	matrixf outputs = net.get_outputs();
+	for (int i = 0 ;i < 10; i++) {
+		EXPECT_FLOAT_EQ(0.5,outputs(0,0,i))<<"Should be 0.5";
+	}
+}
+
+TEST(NETFEEDFTestSuite,FILE_SAVE) {
+	matrix inputs(1,1,10);
+	net_feedf net(0,10,0,0,10);
+	net.put_name("TestNet");
+	net.create();
+	net.init_net();
+	net.init_inp(inputs);
+	net.set_temp(2);
+	EXPECT_STREQ("TestNet",net.namenet())<<"Should be TestNet";
+	net.save("./test.dat");
+	net.put_name("TestNet2");
+	EXPECT_STREQ("TestNet2",net.namenet())<<"Should be TestNet2";
+	net.load_inf("./test.dat");
+	EXPECT_STREQ("TestNet",net.namenet())<<"Should be TestNet";
+}
+
+TEST(NETFEEDFTestSuite,FILE_LOAD) {
+	matrix inputs(1,1,10);
+	net_feedf net;
+	net.load_inf("./test.dat");
+	net.create();
+	net.init_net();
+	net.init_inp(inputs);
+	net.set_temp(2);
+	net.forward();
+	EXPECT_STREQ("TestNet",net.namenet())<<"Should be TestNet";
 	matrixf outputs = net.get_outputs();
 	for (int i = 0 ;i < 10; i++) {
 		EXPECT_FLOAT_EQ(0.5,outputs(0,0,i))<<"Should be 0.5";

@@ -42,6 +42,8 @@ public:
 	matrixf& operator=(matrixf&);
 	matrixf& operator=(matrix&);
 	float& operator()(int,int,int);
+	void save(int dFile);
+	void load(int dFile);
 private:
 	float error_value;
 	void allocate_matrix();

@@ -38,6 +38,8 @@ public:
 	void free_mat();
 	void operator=(matrix&);
 	int& operator()(int, int, int);
+	void save(int dFile);
+	void load(int dFile);
 private:
 	void allocate_matrix();
 };

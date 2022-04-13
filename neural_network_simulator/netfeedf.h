@@ -13,7 +13,7 @@
 #define NETFEEDF_H_
 
 #include "matrixf.h"
-#include "string.h"
+#include <string.h>
 
 enum ON_OFF {
 	ON,
@@ -99,7 +99,6 @@ public:
 	void test();
 	//antreneeaza reteaua
 	void train();
-	void load_weights();
 	//pune valorile tabloului de test completat in cadrul sesiunii de antrenament
 	//intr-un tablou global in care se pot memora max 5 retele
 	void put_perf();
@@ -121,10 +120,12 @@ public:
 	//pentru ajustarea ponderilor
 	virtual void backward();
 	//se salveaza fisierul
-	virtual void save();
+	virtual int save(const char*);
 	//se reface din fisier
-	virtual void load_inf();
+	virtual int load_inf(const char*);
 protected:
+	virtual void saveInternal_inf(int fdescriptor);
+	virtual void loadInternal_inf(int fdescriptor);
 	//caracter pentru tipul de retea feedforward necesar pentru citire de pe disk
 	// % = total connectata
 	// ? = local connectata
@@ -135,6 +136,8 @@ protected:
 	ON_OFF CREATE;
 	//semafor pentru a semnala daca reteaua a fost antrenata sau nu
 	ON_OFF TRAINED;
+	//semafor pentru a semnala daca reteaua a fost loaded sau nu
+	ON_OFF LOADED;
 	//sir de caractere pentru numele retelei
 	char name[10];
 	//constanta de invatare
@@ -173,7 +176,7 @@ protected:
 	int l;
 	//matricea care pastreaza valorile nodurile de intrare
 	matrixf inp;
-	//vectorul pentru memorarea valorilor obtinute la noruile de la iesire
+	//vectorul pentru memorarea valorilor obtinute la nodurile de la iesire
 	matrixf out;
 	//vectorul pentru memorarea valorilor dorite la iesire pentru antrenament
 	matrixf tp;
