@@ -271,9 +271,9 @@ void net_feedf::init_net() {
 	switch (nr_hidd) {
 	case 0:
 		if (LOADED == OFF) {
-			wohi.init(1, N, L);
+			wohi.init(1,N,L);
 		}
-		dwohi.init(1, N, L);
+		dwohi.init(1,N,L);
 		break;
 	case 1:
 		if (LOADED == OFF) {
@@ -416,13 +416,13 @@ void net_feedf::loadInternal_inf(int dFile) {
 	LOADED = ON;
 }
 
-int net_feedf::load_inf(const char *path) {
-	int dFile = open(path, O_RDONLY);
+int net_feedf::load_inf(const char* path) {
+	int dFile = open(path,O_RDONLY);
 	if (dFile <= 0) {
 		perror("Could not open file for read");
 		return -1;
 	}
-	read(dFile, &typenet, sizeof(char));
+	read(dFile,&typenet,sizeof(char));
 	loadInternal_inf(dFile);
 	close(dFile);
 	return 0;

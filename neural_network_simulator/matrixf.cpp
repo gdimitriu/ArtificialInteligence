@@ -120,6 +120,7 @@ void matrixf::load_text(ifstream &file) {
 			for (int k = 0; k < dim2; k++)
 				file>>m[i][j][k];
 }
+
 void matrixf::init_rand(float offset, float multiplicator) {
 	for (int i = 0; i < dim0; i++)
 		for (int j = 0; j < dim1; j++)
