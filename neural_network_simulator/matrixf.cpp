@@ -7,6 +7,7 @@
 
 #include "matrixf.h"
 #include <unistd.h>
+using namespace std;
 
 matrixf::matrixf(int dim0, int dim1, int dim2) {
 	this->dim0 = dim0;
@@ -48,10 +49,10 @@ void matrixf::free_mat() {
 		return;
 	for (int i = 0; i < dim0; i++) {
 		for (int j = 0; j < dim1; j++)
-			delete m[i][j];
-		delete m[i];
+			delete[] m[i][j];
+		delete[] m[i];
 	}
-	delete m;
+	delete[] m;
 	m = 0;
 }
 
@@ -109,4 +110,19 @@ void matrixf::load(int dFile) {
 		for (int j = 0; j < dim1; j++)
 			for (int k = 0; k < dim2; k++)
 				read(dFile,&m[i][j][k],sizeof(float));
+}
+
+void matrixf::load_text(ifstream &file) {
+	file>>dim0>>dim1>>dim2;
+	allocate_matrix();
+	for (int i = 0; i < dim0; i++)
+		for (int j = 0; j < dim1; j++)
+			for (int k = 0; k < dim2; k++)
+				file>>m[i][j][k];
+}
+void matrixf::init_rand(float offset, float multiplicator) {
+	for (int i = 0; i < dim0; i++)
+		for (int j = 0; j < dim1; j++)
+			for (int k = 0; k < dim2; k++)
+				m[i][j][k] = offset + multiplicator* rand()/(float)RAND_MAX;
 }

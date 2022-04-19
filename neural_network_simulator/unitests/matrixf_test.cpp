@@ -9,6 +9,9 @@
 #include "../matrix.h"
 
 #include <gtest/gtest.h>
+#include <fstream>
+#include <iostream>
+using namespace std;
 
 TEST(MATRIXFTestSuite,CONSTRUCTOR_DIMENSIONS) {
 	matrixf matrix_test(2,3,4);
@@ -86,4 +89,31 @@ TEST(MATRIXFTestSuite,OPERATOR_OPERATIONS) {
 TEST(MATRIXFTestSuite,OPERATOR_EXCEPTIONS) {
 	matrixf matrix_test1(3,3,3);
 	EXPECT_FLOAT_EQ(0.0,matrix_test1(3,3,3))<<"Should be 0.0";
+}
+
+TEST(MATRIXFTestSuite,FILE_LOAD_TEXT) {
+	matrixf inputs;
+	ifstream file("./testvector.txt");
+	inputs.load_text(file);
+	EXPECT_EQ(1,inputs.d0())<<"dim0 should 1";
+	EXPECT_EQ(1,inputs.d1())<<"dim1 should 1";
+	EXPECT_EQ(6,inputs.d2())<<"dim0 should 6";
+	EXPECT_FLOAT_EQ(0.5,inputs(0,0,0))<<"Should be 0.5";
+	EXPECT_FLOAT_EQ(2.5,inputs(0,0,1))<<"Should be 2.5";
+	EXPECT_FLOAT_EQ(6.5,inputs(0,0,2))<<"Should be 6.5";
+	EXPECT_FLOAT_EQ(10,inputs(0,0,3))<<"Should be 10";
+	EXPECT_FLOAT_EQ(20,inputs(0,0,4))<<"Should be 20";
+	EXPECT_FLOAT_EQ(30,inputs(0,0,5))<<"Should be 30";
+	file.close();
+}
+
+TEST(MATRIXFTestSuite,MATRIXF_RAND) {
+	matrixf inputs(1,1,10);
+	srand(time(NULL));
+	inputs.init_rand(-0.25,0.2);
+	for(int i = 0; i < inputs.d0(); i++)
+		for(int j = 0; j < inputs.d1(); j++)
+			for(int k = 0; k < inputs.d2(); k++)
+				if (inputs(i,j,k) <= -0.25 || inputs(i,j,k) >= 0.25)
+					testing::AssertionFailure()<<inputs(i,j,k)<< " is out of range [-0.25,0.25]";
 }

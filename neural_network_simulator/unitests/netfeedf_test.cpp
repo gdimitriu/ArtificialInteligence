@@ -69,3 +69,98 @@ TEST(NETFEEDFTestSuite,FILE_LOAD) {
 		EXPECT_FLOAT_EQ(0.5,outputs(0,0,i))<<"Should be 0.5";
 	}
 }
+
+TEST(NETFEEDFTestSuite,FILE_LOAD_TRAINNING) {
+	net_feedf net;
+	net.create();
+	net.init_net();
+	net.load_trainning_text_File("./test_trainning_load.txt");
+	matrixf &inputs = net.get_inp();
+	matrixf &expected = net.get_tp();
+	EXPECT_EQ(1,inputs.d0())<<"dim0 should 1";
+	EXPECT_EQ(1,inputs.d1())<<"dim1 should 1";
+	EXPECT_EQ(6,inputs.d2())<<"dim0 should 6";
+	EXPECT_FLOAT_EQ(0.5,inputs(0,0,0))<<"Input should be 0.5";
+	EXPECT_FLOAT_EQ(2.5,inputs(0,0,1))<<"Input should be 2.5";
+	EXPECT_FLOAT_EQ(6.5,inputs(0,0,2))<<"Input should be 6.5";
+	EXPECT_FLOAT_EQ(10,inputs(0,0,3))<<"Input should be 10";
+	EXPECT_FLOAT_EQ(20,inputs(0,0,4))<<"Input should be 20";
+	EXPECT_FLOAT_EQ(30,inputs(0,0,5))<<"Input should be 30";
+	EXPECT_EQ(1,expected.d0())<<"dim0 should 1";
+	EXPECT_EQ(1,expected.d1())<<"dim1 should 1";
+	EXPECT_EQ(6,expected.d2())<<"dim0 should 6";
+	EXPECT_FLOAT_EQ(0.5,expected(0,0,0))<<"Expected should be 0.5";
+	EXPECT_FLOAT_EQ(2.5,expected(0,0,1))<<"Expected should be 2.5";
+	EXPECT_FLOAT_EQ(6.5,expected(0,0,2))<<"Expected should be 6.5";
+	EXPECT_FLOAT_EQ(10,expected(0,0,3))<<"Expected should be 10";
+	EXPECT_FLOAT_EQ(20,expected(0,0,4))<<"Expected should be 20";
+	EXPECT_FLOAT_EQ(30,expected(0,0,5))<<"Expected should be 30";
+}
+
+TEST(NETFEEDFTestSuite,FILE_LOAD_SUITE_TRAINNING) {
+	net_feedf net;
+	net.create();
+	net.init_net();
+	net.load_trainning_suite_text_file("./test_suite_load.txt");
+	matrixf &inputs = net.get_inp(0);
+	matrixf &expected = net.get_tp(0);
+	EXPECT_EQ(1,inputs.d0())<<"dim0 should 1";
+	EXPECT_EQ(1,inputs.d1())<<"dim1 should 1";
+	EXPECT_EQ(6,inputs.d2())<<"dim0 should 6";
+	EXPECT_FLOAT_EQ(0.5,inputs(0,0,0))<<"Input should be 0.5";
+	EXPECT_FLOAT_EQ(2.5,inputs(0,0,1))<<"Input should be 2.5";
+	EXPECT_FLOAT_EQ(6.5,inputs(0,0,2))<<"Input should be 6.5";
+	EXPECT_FLOAT_EQ(10,inputs(0,0,3))<<"Input should be 10";
+	EXPECT_FLOAT_EQ(20,inputs(0,0,4))<<"Input should be 20";
+	EXPECT_FLOAT_EQ(30,inputs(0,0,5))<<"Input should be 30";
+	EXPECT_EQ(1,expected.d0())<<"dim0 should 1";
+	EXPECT_EQ(1,expected.d1())<<"dim1 should 1";
+	EXPECT_EQ(6,expected.d2())<<"dim0 should 6";
+	EXPECT_FLOAT_EQ(0.5,expected(0,0,0))<<"Expected should be 0.5";
+	EXPECT_FLOAT_EQ(2.5,expected(0,0,1))<<"Expected should be 2.5";
+	EXPECT_FLOAT_EQ(6.5,expected(0,0,2))<<"Expected should be 6.5";
+	EXPECT_FLOAT_EQ(10,expected(0,0,3))<<"Expected should be 10";
+	EXPECT_FLOAT_EQ(20,expected(0,0,4))<<"Expected should be 20";
+	EXPECT_FLOAT_EQ(30,expected(0,0,5))<<"Expected should be 30";
+	inputs = net.get_inp(1);
+	expected = net.get_tp(1);
+	EXPECT_EQ(1,inputs.d0())<<"dim0 should 1";
+	EXPECT_EQ(1,inputs.d1())<<"dim1 should 1";
+	EXPECT_EQ(6,inputs.d2())<<"dim0 should 6";
+	EXPECT_FLOAT_EQ(0.5,inputs(0,0,0))<<"Input should be 0.5";
+	EXPECT_FLOAT_EQ(2.5,inputs(0,0,1))<<"Input should be 2.5";
+	EXPECT_FLOAT_EQ(6.5,inputs(0,0,2))<<"Input should be 6.5";
+	EXPECT_FLOAT_EQ(10,inputs(0,0,3))<<"Input should be 10";
+	EXPECT_FLOAT_EQ(20,inputs(0,0,4))<<"Input should be 20";
+	EXPECT_FLOAT_EQ(40,inputs(0,0,5))<<"Input should be 40";
+	EXPECT_EQ(1,expected.d0())<<"dim0 should 1";
+	EXPECT_EQ(1,expected.d1())<<"dim1 should 1";
+	EXPECT_EQ(6,expected.d2())<<"dim0 should 6";
+	EXPECT_FLOAT_EQ(0.5,expected(0,0,0))<<"Expected should be 0.5";
+	EXPECT_FLOAT_EQ(2.5,expected(0,0,1))<<"Expected should be 2.5";
+	EXPECT_FLOAT_EQ(6.5,expected(0,0,2))<<"Expected should be 6.5";
+	EXPECT_FLOAT_EQ(10,expected(0,0,3))<<"Expected should be 10";
+	EXPECT_FLOAT_EQ(20,expected(0,0,4))<<"Expected should be 20";
+	EXPECT_FLOAT_EQ(40,expected(0,0,5))<<"Expected should be 40";
+	inputs = net.get_inp(2);
+	expected = net.get_tp(2);
+	EXPECT_EQ(1,inputs.d0())<<"dim0 should 1";
+	EXPECT_EQ(1,inputs.d1())<<"dim1 should 1";
+	EXPECT_EQ(6,inputs.d2())<<"dim0 should 6";
+	EXPECT_FLOAT_EQ(0.5,inputs(0,0,0))<<"Input should be 0.5";
+	EXPECT_FLOAT_EQ(2.5,inputs(0,0,1))<<"Input should be 2.5";
+	EXPECT_FLOAT_EQ(6.5,inputs(0,0,2))<<"Input should be 6.5";
+	EXPECT_FLOAT_EQ(10,inputs(0,0,3))<<"Input should be 10";
+	EXPECT_FLOAT_EQ(20,inputs(0,0,4))<<"Input should be 20";
+	EXPECT_FLOAT_EQ(50,inputs(0,0,5))<<"Input should be 50";
+	EXPECT_EQ(1,expected.d0())<<"dim0 should 1";
+	EXPECT_EQ(1,expected.d1())<<"dim1 should 1";
+	EXPECT_EQ(6,expected.d2())<<"dim0 should 6";
+	EXPECT_FLOAT_EQ(0.5,expected(0,0,0))<<"Expected should be 0.5";
+	EXPECT_FLOAT_EQ(2.5,expected(0,0,1))<<"Expected should be 2.5";
+	EXPECT_FLOAT_EQ(6.5,expected(0,0,2))<<"Expected should be 6.5";
+	EXPECT_FLOAT_EQ(10,expected(0,0,3))<<"Expected should be 10";
+	EXPECT_FLOAT_EQ(20,expected(0,0,4))<<"Expected should be 20";
+	EXPECT_FLOAT_EQ(50,expected(0,0,5))<<"Expected should be 50";
+	net.del_trainning_suite();
+}

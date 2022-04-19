@@ -8,6 +8,8 @@
 #ifndef MATRIXF_H_
 #define MATRIXF_H_
 #include "matrix.h"
+#include <fstream>
+#include <iostream>
 
 class matrixf {
 	float ***m;
@@ -44,6 +46,8 @@ public:
 	float& operator()(int,int,int);
 	void save(int dFile);
 	void load(int dFile);
+	void load_text(std::ifstream &file);
+	void init_rand(float offset, float multiplicator);
 private:
 	float error_value;
 	void allocate_matrix();

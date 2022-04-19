@@ -86,13 +86,17 @@ public:
 	void put_name(char *s) {
 		strcpy(name,s);
 	}
+	void load_trainning_text_File(char *path);
+	void load_trainning_suite_text_file(char *path);
+	void del_trainning_suite();
+
 	//initializeaza vectorul valori de iesire
 	void init_tp(int);
 	matrixf& get_outputs();
 	//introduce zgomot
 	void inp_noise();
 	//initializeaza ponderile cu valori aleatoare din intervalul [-0.2,+0.2]
-	void initweights();
+	virtual void initweights(float offset, float multiplicator);
 	//returneaza nodul de iesire cu valoarea cea mai mare
 	int max();
 	//utilizeaza reteaua dupa ce a fost antrenata
@@ -107,9 +111,13 @@ public:
 	//preia datele de initializare
 	virtual int create();
 	//initializeaza inputul cu valori 0 si 1
-	virtual void init_inp(matrix&);
+	void init_inp(matrix&);
 	//initializeaza valorile intrarii cu float cu val 0.0 si 1.0
-	virtual void init_inpbin(int,float *);
+	void init_inpbin(int,float *);
+	matrixf& get_inp();
+	matrixf& get_inp(int index);
+	matrixf& get_tp();
+	matrixf& get_tp(int index);
 	//se apeleaza daca create() sa executat cu success si aloca toate matricele de valori float
 	//se mai apeleaza si dupa preluarea informatiilor despre o retea dintr-un fisier
 	virtual void init_net();
@@ -124,6 +132,9 @@ public:
 	//se reface din fisier
 	virtual int load_inf(const char*);
 protected:
+	int nr_in_suite_test;
+	matrixf *trainning_inp;
+	matrixf *trainning_tp;
 	virtual void saveInternal_inf(int fdescriptor);
 	virtual void loadInternal_inf(int fdescriptor);
 	//caracter pentru tipul de retea feedforward necesar pentru citire de pe disk
@@ -147,8 +158,8 @@ protected:
 	//valoare pentru momentum
 	float mom;
 	//numele fisierelor de antrenament si de test daca se reia
-	char tr_file[15];
-	char ts_file[15];
+	char tr_file[256];
+	char ts_file[256];
 	//numarul epocilor de antrenament
 	int nr_it;
 	//numarul de epoci la care se testeaza reteaua

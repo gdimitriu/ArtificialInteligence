@@ -40,10 +40,10 @@ void matrix::free_mat() {
 		return;
 	for (int i = 0; i < dim0; i++) {
 		for (int j = 0; j < dim1; j++)
-			delete m[i][j];
-		delete m[i];
+			delete[] m[i][j];
+		delete[] m[i];
 	}
-	delete m;
+	delete[] m;
 	m = 0;
 }
 
