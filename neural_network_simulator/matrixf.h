@@ -28,6 +28,7 @@ public:
 	matrixf(matrixf&);
 	matrixf(int, int, int);
 	void init(int,int,int);
+	void printData();
 	virtual ~matrixf() {
 		free_mat();
 	};

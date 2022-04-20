@@ -58,13 +58,12 @@ public:
 	void set_trained() {
 		TRAINED = ON;
 	}
+	void set_nr_it(int value) {
+		nr_it = value;
+	}
 	//returneaza numarul de epoci de antrenament
 	int get_nr_it() {
 		return nr_it;
-	}
-	//returneaza numarul de epoci la care trebuie sa se testeze
-	int get_nr_test() {
-		return nr_test;
 	}
 	//returneaza procentajul de test
 	int* get_tab_test() {
@@ -74,24 +73,21 @@ public:
 	char *namenet() {
 		return name;
 	}
-	char *nametr() {
-		return tr_file;
-	}
-	void put_nametr(char *s) {
-		strcpy(tr_file,s);
-	}
-	void put_namets(char *s) {
-		strcpy(ts_file,s);
-	}
 	void put_name(char *s) {
 		strcpy(name,s);
 	}
 	void load_trainning_text_File(char *path);
 	void load_trainning_suite_text_file(char *path);
 	void del_trainning_suite();
-
+	void load_test_suite_text_file(char *path);
+	void del_test_suite();
+	int get_nr_in_test_suite() {
+		return nr_in_suite_test;
+	}
+	int get_nr_in_trainning_suite() {
+		return nr_in_suite_trainning;
+	}
 	//initializeaza vectorul valori de iesire
-	void init_tp(int);
 	matrixf& get_outputs();
 	//introduce zgomot
 	void inp_noise();
@@ -112,12 +108,13 @@ public:
 	virtual int create();
 	//initializeaza inputul cu valori 0 si 1
 	void init_inp(matrix&);
-	//initializeaza valorile intrarii cu float cu val 0.0 si 1.0
-	void init_inpbin(int,float *);
+	void init_inp(matrixf&);
 	matrixf& get_inp();
-	matrixf& get_inp(int index);
+	matrixf& get_trainning_inp(int index);
+	matrixf& get_test_inp(int index);
 	matrixf& get_tp();
-	matrixf& get_tp(int index);
+	matrixf& get_trainning_tp(int index);
+	matrixf& get_test_tp(int index);
 	//se apeleaza daca create() sa executat cu success si aloca toate matricele de valori float
 	//se mai apeleaza si dupa preluarea informatiilor despre o retea dintr-un fisier
 	virtual void init_net();
@@ -131,10 +128,22 @@ public:
 	virtual int save(const char*);
 	//se reface din fisier
 	virtual int load_inf(const char*);
+	void setEta(float value) {
+		eta = value;
+	}
+	void setMomentum(float value) {
+		mom = value;
+	}
+	void setDesiredMse(float value) {
+		DesiredMse = value;
+	}
 protected:
-	int nr_in_suite_test;
+	int nr_in_suite_trainning;
 	matrixf *trainning_inp;
 	matrixf *trainning_tp;
+	int nr_in_suite_test;
+	matrixf *test_inp;
+	matrixf *test_tp;
 	virtual void saveInternal_inf(int fdescriptor);
 	virtual void loadInternal_inf(int fdescriptor);
 	//caracter pentru tipul de retea feedforward necesar pentru citire de pe disk
@@ -157,18 +166,10 @@ protected:
 	float temp;
 	//valoare pentru momentum
 	float mom;
-	//numele fisierelor de antrenament si de test daca se reia
-	char tr_file[256];
-	char ts_file[256];
 	//numarul epocilor de antrenament
 	int nr_it;
-	//numarul de epoci la care se testeaza reteaua
-	int nr_test;
 	//numarul de epoci deja parcurse in procesul de antrenament
 	int nr_it_used;
-	//marime bufere citire
-	int buftrain;
-	int buftest;
 	//TABLOUL VALORILOR DE TEST
 	//la fiecare nr_test_epoci se completeaza o val intre 0 si 100 care e procentajul
 	int *tab_test;
@@ -213,7 +214,8 @@ protected:
 	int EtaVar;
 	//ultimul indice pentru rata de invatare ETA
 	int LastIndEta;
-	//ultima vloare a erorii patratice medii
+	float DesiredMse;
+	//ultima valoare a erorii patratice medii
 	float LastMse;
 	//ultima valoare pentru entropie
 	float LastS;

@@ -20,6 +20,7 @@
 #include <iostream>
 #include <time.h>
 #include <stdlib.h>
+#include <math.h>
 
 extern int errno;
 using namespace std;
@@ -42,6 +43,8 @@ net_feedf::net_feedf() {
 	L = 0;
 	LOADED = OFF;
 	nr_in_suite_test = 0;
+	nr_in_suite_trainning = 0;
+	DesiredMse = 0.0;
 }
 
 net_feedf::net_feedf(int nr_hidd, int L, int M0, int M1, int N) :
@@ -78,7 +81,7 @@ void net_feedf::forward(void) {
 			val = 0;
 			for (j = 0; j < L; j++)
 				val += wohi(0, i, j) * inp(0, 0, j);
-			out(0, 0, i) = to(val * bohi(0, 0, i), temp);
+			out(0, 0, i) = to(val + bohi(0, 0, i), temp);
 		}
 		break;
 	}
@@ -248,16 +251,53 @@ void net_feedf::test() {
 }
 
 void net_feedf::train() {
-
+	nr_it_used = 0;
+	int index_in_test = 0;
+	for(;nr_it_used < nr_it; nr_it_used++) {
+		index_in_test = 0;
+		while(1) {
+			if (index_in_test < nr_in_suite_trainning) {
+				inp = trainning_inp[index_in_test];
+				tp = trainning_tp[index_in_test];
+				forward();
+				backward();
+				index_in_test++;
+			} else {
+				break;
+			}
+		}
+		LastMse = 0.0;
+		index_in_test = 0;
+		while(1) {
+			if (index_in_test < nr_in_suite_trainning) {
+				inp = trainning_inp[index_in_test];
+				tp = trainning_tp[index_in_test];
+				forward();
+				for (int i = 0; i < N; i++) {
+					LastMse += pow(fabs(out(0,0,i) - tp(0,0,i)),2);
+				}
+				index_in_test++;
+			} else {
+				break;
+			}
+		}
+		if (fabs(LastMse - DesiredMse) < 0.0001) {
+			TRAINED = ON;
+			break;
+		}
+	}
 }
 
 int net_feedf::max() {
-	float maxim = out(0, 0, 1);
-	for (int i = 0; i < N; i++) {
-		if (maxim < out(0, 0, i))
+	int index = 0;
+	float maxim = out(0, 0, 0);
+	for (int i = 1; i < N; i++) {
+		if (maxim < out(0, 0, i)) {
 			maxim = out(0, 0, i);
+			index = i;
+		}
 	}
-	return maxim;
+	return index;
 }
 
 matrixf& net_feedf::get_outputs() {
@@ -464,17 +504,14 @@ void net_feedf::inp_noise() {
 
 }
 
-void net_feedf::init_tp(int size) {
-
-}
-
 void net_feedf::init_inp(matrix &inputs) {
 	inp = inputs;
 }
 
-void net_feedf::init_inpbin(int size, float *vector) {
-
+void net_feedf::init_inp(matrixf &inputs) {
+	inp = inputs;
 }
+
 void net_feedf::load_trainning_text_File(char *path) {
 	ifstream file(path);
 	inp.load_text(file);
@@ -490,20 +527,28 @@ matrixf& net_feedf::get_tp() {
 	return tp;
 }
 
-matrixf& net_feedf::get_inp(int index) {
+matrixf& net_feedf::get_trainning_inp(int index) {
 	return trainning_inp[index];
 }
 
-matrixf& net_feedf::get_tp(int index) {
+matrixf& net_feedf::get_trainning_tp(int index) {
 	return trainning_tp[index];
+}
+
+matrixf& net_feedf::get_test_inp(int index) {
+	return test_inp[index];
+}
+
+matrixf& net_feedf::get_test_tp(int index) {
+	return test_tp[index];
 }
 
 void net_feedf::load_trainning_suite_text_file(char *path) {
 	ifstream file(path);
-	file >> nr_in_suite_test;
-	trainning_inp = new matrixf[nr_in_suite_test]();
-	trainning_tp = new matrixf[nr_in_suite_test]();
-	for (int i = 0; i < nr_in_suite_test; i++) {
+	file >> nr_in_suite_trainning;
+	trainning_inp = new matrixf[nr_in_suite_trainning]();
+	trainning_tp = new matrixf[nr_in_suite_trainning]();
+	for (int i = 0; i < nr_in_suite_trainning; i++) {
 		trainning_inp[i].load_text(file);
 		trainning_tp[i].load_text(file);
 	}
@@ -513,5 +558,23 @@ void net_feedf::load_trainning_suite_text_file(char *path) {
 void net_feedf::del_trainning_suite() {
 	delete[] trainning_inp;
 	delete[] trainning_tp;
+	nr_in_suite_trainning = 0;
+}
+
+void net_feedf::load_test_suite_text_file(char *path) {
+	ifstream file(path);
+	file >> nr_in_suite_test;
+	test_inp = new matrixf[nr_in_suite_test]();
+	test_tp = new matrixf[nr_in_suite_test]();
+	for (int i = 0; i < nr_in_suite_test; i++) {
+		test_inp[i].load_text(file);
+		test_tp[i].load_text(file);
+	}
+	file.close();
+}
+
+void net_feedf::del_test_suite() {
+	delete[] test_inp;
+	delete[] test_tp;
 	nr_in_suite_test = 0;
 }

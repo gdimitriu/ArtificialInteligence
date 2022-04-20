@@ -127,3 +127,11 @@ void matrixf::init_rand(float offset, float multiplicator) {
 			for (int k = 0; k < dim2; k++)
 				m[i][j][k] = offset + multiplicator* rand()/(float)RAND_MAX;
 }
+
+void matrixf::printData() {
+	for (int i = 0; i < dim0; i++)
+			for (int j = 0; j < dim1; j++)
+				for (int k = 0; k < dim2; k++)
+					cout<<m[i][j][k]<<" ";
+	cout<<endl;
+}
