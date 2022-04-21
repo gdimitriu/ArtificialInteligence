@@ -144,8 +144,8 @@ protected:
 	int nr_in_suite_test;
 	matrixf *test_inp;
 	matrixf *test_tp;
-	virtual void saveInternal_inf(int fdescriptor);
-	virtual void loadInternal_inf(int fdescriptor);
+	void saveInternal_inf(int fdescriptor);
+	void loadInternal_inf(int fdescriptor);
 	//caracter pentru tipul de retea feedforward necesar pentru citire de pe disk
 	// % = total connectata
 	// ? = local connectata
@@ -184,8 +184,6 @@ protected:
 	int M0;
 	//M1 = al doilea nivel ascuns
 	int M1;
-	//nivelul de intrare fiind considerat bidimensional se pastreaza dimensiunea patratului
-	int l;
 	//matricea care pastreaza valorile nodurile de intrare
 	matrixf inp;
 	//vectorul pentru memorarea valorilor obtinute la nodurile de la iesire

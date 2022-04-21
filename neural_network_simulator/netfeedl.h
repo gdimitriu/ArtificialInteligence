@@ -17,17 +17,19 @@
 class net_feedl: public net_feedf {
 public:
 	net_feedl();
+	net_feedl(int,int,int,int,int,int,int,int,int);
 	virtual ~net_feedl();
 	void friend info_net(int,int,net_feedl&);
 	virtual int create();
-	virtual void init_inp(matrix&);
-	virtual void init_inpbin(int, float *);
-	virtual void init_net();
 	virtual void forward();
 	virtual void backward();
 	virtual int save(const char*);
 	virtual int load_inf(const char*);
 protected:
+	void saveInternal_inf(int fdescriptor);
+	void loadInternal_inf(int fdescriptor);
+	//nivelul de intrare fiind considerat bidimensional se pastreaza dimensiunea patratului
+	int l;
 	//dimensiunea patratului de conexiune la nivelul de intrare
 	int nr_latinp;
 	//distanta dintre doua patrate
@@ -38,7 +40,7 @@ protected:
 	int nr_lath0;
 	//distanta intre patratele de conexiune
 	int dis0;
-	//h1*h1=M0
+	//h1*h1=M1
 	int h1;
 };
 

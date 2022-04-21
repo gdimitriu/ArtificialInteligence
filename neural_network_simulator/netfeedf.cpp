@@ -129,7 +129,7 @@ void net_feedf::forward(void) {
 		break;
 	}
 	default:
-		fprintf(stderr, "Nr. gresit de nivele ascunse ");
+		fprintf(stderr, "Illegal hidden layers number !!");
 	}
 }
 
@@ -242,7 +242,7 @@ void net_feedf::backward() {
 		break;
 	}
 	default:
-		fprintf(stderr, "Nr. gresit de nivele ascunse ");
+		fprintf(stderr, "Illegal hidden layers number !!");
 	}
 }
 
@@ -281,7 +281,7 @@ void net_feedf::train() {
 				break;
 			}
 		}
-		if (fabs(LastMse - DesiredMse) < 0.0001) {
+		if (fabs(LastMse/2.0 - DesiredMse) < 0.0001) {
 			TRAINED = ON;
 			break;
 		}

@@ -6,7 +6,7 @@ OBJECTS = $(SOURCES:%_test.cpp=%_test.o)
 HEADERS = # $(SOURCES:%.cpp=%.h)
 GENERAL_DEPENDENCIES = ../matrixf.o ../matrix.o
 NETWORKS =  ../netfeedf.o
-FLAGS = -std=gnu++11
+FLAGS = -std=gnu++11 -Wno-write-strings
 LIBS = -lgtest -lgtest_main -lpthread -lm
 EXECUTABLES = runTests
 all: $(OBJECTS) $(EXECUTABLES)
