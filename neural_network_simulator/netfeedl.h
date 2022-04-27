@@ -22,7 +22,10 @@ public:
 	void friend info_net(int,int,net_feedl&);
 	virtual int create();
 	virtual void forward();
+	virtual void init_net();
 	virtual void backward();
+	virtual void init_inp(matrixf& input);
+	virtual void init_inp(matrix& input);
 	virtual int save(const char*);
 	virtual int load_inf(const char*);
 protected:

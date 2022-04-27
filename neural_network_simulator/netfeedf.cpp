@@ -257,7 +257,7 @@ void net_feedf::train() {
 		index_in_test = 0;
 		while(1) {
 			if (index_in_test < nr_in_suite_trainning) {
-				inp = trainning_inp[index_in_test];
+				init_inp(trainning_inp[index_in_test]);
 				tp = trainning_tp[index_in_test];
 				forward();
 				backward();
@@ -270,7 +270,7 @@ void net_feedf::train() {
 		index_in_test = 0;
 		while(1) {
 			if (index_in_test < nr_in_suite_trainning) {
-				inp = trainning_inp[index_in_test];
+				init_inp(trainning_inp[index_in_test]);
 				tp = trainning_tp[index_in_test];
 				forward();
 				for (int i = 0; i < N; i++) {

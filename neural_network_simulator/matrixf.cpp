@@ -29,6 +29,8 @@ matrixf::matrixf(matrixf &origMatrix) {
 }
 
 void matrixf::init(int dim0, int dim1, int dim2) {
+	if (m != 0)
+		free_mat();
 	this->dim0 = dim0;
 	this->dim1 = dim1;
 	this->dim2 = dim2;
@@ -57,8 +59,10 @@ void matrixf::free_mat() {
 }
 
 float& matrixf::operator()(int x, int y, int z) {
-	if (x >= dim0 || y >= dim1 || z >= dim2)
+	if (x >= dim0 || y >= dim1 || z >= dim2) {
+		cout<<"IndexOutOfBounds:"<<x<<":"<<y<<":"<<z<<endl;
 		return error_value;
+	}
 	return m[x][y][z];
 }
 
@@ -129,9 +133,13 @@ void matrixf::init_rand(float offset, float multiplicator) {
 }
 
 void matrixf::printData() {
-	for (int i = 0; i < dim0; i++)
-			for (int j = 0; j < dim1; j++)
+	for (int i = 0; i < dim0; i++) {
+			for (int j = 0; j < dim1; j++) {
 				for (int k = 0; k < dim2; k++)
 					cout<<m[i][j][k]<<" ";
+				cout<<endl;
+			}
+			cout<<endl;
+	}
 	cout<<endl;
 }

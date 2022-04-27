@@ -107,8 +107,8 @@ public:
 	//preia datele de initializare
 	virtual int create();
 	//initializeaza inputul cu valori 0 si 1
-	void init_inp(matrix&);
-	void init_inp(matrixf&);
+	virtual void init_inp(matrix&);
+	virtual void init_inp(matrixf&);
 	matrixf& get_inp();
 	matrixf& get_trainning_inp(int index);
 	matrixf& get_test_inp(int index);

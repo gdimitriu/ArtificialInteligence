@@ -21,6 +21,7 @@
 #include <time.h>
 #include <stdlib.h>
 #include <math.h>
+#include <iostream>
 
 net_feedl::net_feedl() : net_feedf() {
 	l = 0;
@@ -42,7 +43,7 @@ net_feedl::net_feedl(int nr_hidd, int L, int M0, int M1, int N, int nr_latinp, i
 	this->dis0 = dis0;
 	h0 = sqrt(M0);
 	h1 = sqrt(M1);
-	l = nr_latinp;
+	l = sqrt(L);
 	typenet = '?';
 }
 
@@ -62,15 +63,15 @@ void net_feedl::forward() {
 			for (j = 0 ; j < h0; j++) {
 				val = 0;
 				for (k = 0; k < nr_latinp*nr_latinp; k++)
-					val += whin(0,i*h0*+k,k) * inp(0,(i*disin+k/nr_latinp)%l,(j*disin+k % nr_latinp)%l);
+					val += whin(0,i*h0+j,k) * inp(0,(i*disin+k/nr_latinp)%l,(j*disin+k % nr_latinp)%l);
 				hid0(0,i,j) = to(val+bhin(0,0,i*h0+j),temp);
 			}
 		//out <-- hid0
 		for (i = 0; i < N; i++) {
 			val = 0;
 			for (j = 0; j < h0; j++)
-				for (k = 0; j < h0; j++)
-					val += wohi(0,0,j*h0+k)*hid0(0,j,k);
+				for (k = 0; k < h0; k++)
+					val += wohi(0,i,j*h0+k)*hid0(0,j,k);
 			out(0,0,i) = to(val + bohi(0,0,i),temp);
 		}
 		break;
@@ -124,11 +125,12 @@ void net_feedl::backward() {
 			deltaohi(0,0,i) *= out(0,0,i)*(1 -out(0,0,i));
 			for (j = 0; j < M0; j++) {
 				deltaw = eta * deltaohi(0,0,i) * hid0(0,j/h0, j%h0);
-				wohi(0,i,j) += deltaw + mom * dwohi(0,i,k);
+				wohi(0,i,j) += deltaw + mom * dwohi(0,i,j);
 				dwohi(0,i,j) = deltaw;
 			}
 			deltab = eta  * deltaohi(0,0,i);
 			bohi(0,0,i) += deltab + mom*dbohi(0,0,i);
+			dbohi(0,0,i) = deltab;
 		}
 		//hid0 <-- inp
 		for (i = 0; i < h0; i++)
@@ -203,12 +205,73 @@ void net_feedl::backward() {
 				}
 				deltab = eta * netdelta;
 				bhin(0,0,i*h0+j) += deltab + mom*dbhin(0,0,i*h0+j);
-				bhin(0,0,i*h0+j) = deltab;
+				dbhin(0,0,i*h0+j) = deltab;
 			}
 		break;
 	}
 	default:
 		fprintf(stderr,"Illegal hidden layers number !!");
+	}
+}
+
+int net_feedl::create() {
+	return 0;
+}
+
+void net_feedl::init_net() {
+	inp.init(1, l, l);
+	out.init(1, 1, N);
+	tp.init(1, 1, N);
+	switch (nr_hidd) {
+	case 1:
+		if (LOADED == OFF) {
+			wohi.init(1, N, M0);
+			hid0.init(1, h0, h0);
+			bhin.init(1, 1, M0);
+			whin.init(1, M0, nr_latinp*nr_latinp);
+		}
+		dwohi.init(1, N, M0);
+		dwhin.init(1, M0, nr_latinp*nr_latinp);
+		dbhin.init(1, 1, M0);
+		break;
+	case 2:
+		if (LOADED == OFF) {
+			wohi.init(1, N, M1);
+			hid0.init(1, h0, h0);
+			bhin.init(1, 1, M0);
+			hid1.init(1, h1, h1);
+			wh10.init(1, M1, nr_lath0*nr_lath0);
+			whin.init(1, M0, nr_latinp*nr_latinp);
+		}
+		dwhin.init(1, M0, L);
+		dbhin.init(1, 1, M0);
+		dwh10.init(1, M1, nr_lath0*nr_lath0);
+		bh10.init(1, 1, M1);
+		dbh10.init(1, 1, M1);
+		dwohi.init(1, N, M1);
+		break;
+	}
+	if (LOADED == OFF) {
+		bohi.init(1, 1, N);
+	}
+	dbohi.init(1, 1, N);
+}
+
+
+void net_feedl::init_inp(matrix &inputs) {
+	for (int i = 0; i< inp.d0(); i++)
+		for (int j = 0; j< inp.d1(); j++)
+			for(int k = 0 ; k< inp.d2(); k++) {
+				inp(i,j,k) = inputs(0,0,j*inp.d1()+k);
+			}
+}
+
+void net_feedl::init_inp(matrixf &inputs) {
+	for (int i = 0; i< inp.d0(); i++) {
+		for (int j = 0; j< inp.d1(); j++)
+			for(int k = 0 ; k < inp.d2(); k++) {
+				inp(i,j,k) = inputs(0,0,j*inp.d1()+k);
+			}
 	}
 }
 
@@ -245,6 +308,7 @@ int net_feedl::load_inf(const char* path) {
 	}
 	read(dFile,&typenet,sizeof(char));
 	net_feedf::loadInternal_inf(dFile);
+	loadInternal_inf(dFile);
 	close(dFile);
 	return 0;
 }
