@@ -1,0 +1,17 @@
+domains
+list=integer*
+predicates
+calcul(list,list).
+calcul_2(list).
+calcul_1(list,list).
+clauses
+calcul([],[]):-!.
+calcul(L,L):-calcul_2(L),!.
+calcul(L,S):-calcul_1(L,T),calcul(T,S).
+calcul_1([],[]).
+calcul_1([X],[X]).
+calcul_1([X,Y|T],[X|S]):-X<=Y,calcul_1([Y|T],S).
+calcul_1([X,Y|T],[Y|S]):-X>Y,calcul_1([X|T],S).
+calcul_2([]).
+calcul_2([X]).
+calcul_2([X,Y|T]):-X<=Y,calcul_2([Y|T]).
