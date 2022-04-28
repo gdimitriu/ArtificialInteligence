@@ -269,7 +269,7 @@ void net_feedf::train() {
 				LastMse += pow(out(0,0,i) - tp(0,0,i),2);
 			}
 		}
-		if (fabs(LastMse - DesiredMse) < 0.0001) {
+		if (fabs(LastMse/(nr_in_suite_trainning) - DesiredMse) < 0.0001) {
 			TRAINED = ON;
 			break;
 		}

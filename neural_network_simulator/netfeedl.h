@@ -29,8 +29,8 @@ public:
 	virtual int save(const char*);
 	virtual int load_inf(const char*);
 protected:
-	void saveInternal_inf(int fdescriptor);
-	void loadInternal_inf(int fdescriptor);
+	virtual void saveInternal_inf(int fdescriptor);
+	virtual void loadInternal_inf(int fdescriptor);
 	//nivelul de intrare fiind considerat bidimensional se pastreaza dimensiunea patratului
 	int l;
 	//dimensiunea patratului de conexiune la nivelul de intrare
