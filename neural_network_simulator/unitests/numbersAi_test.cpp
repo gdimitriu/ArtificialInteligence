@@ -27,7 +27,7 @@ TEST(NUMBERSAITestSuite,TRAINNING_TC_0_NUMBERS) {
 	net_feedf net(0,49,0,0,4);
 	net.create();
 	net.init_net();
-	net.set_nr_it(1000);
+	net.set_nr_it(10000);
 	net.set_temp(1);
 	net.setEta(0.35);
 	net.setDesiredMse(0.014);
@@ -61,7 +61,7 @@ TEST(NUMBERSAITestSuite,TRAINNING_TC_1_NUMBERS) {
 	net_feedf net(1,49,12,0,4);
 	net.create();
 	net.init_net();
-	net.set_nr_it(100000);
+	net.set_nr_it(10000);
 	net.set_temp(1);
 	net.setEta(0.35);
 	net.setDesiredMse(0.012);
@@ -96,10 +96,10 @@ TEST(NUMBERSAITestSuite,TRAINNING_LC_1_NUMBERS) {
 	net_feedl net(1,49,25,0,4,3,1,0,0);
 	net.create();
 	net.init_net();
-	net.set_nr_it(1000);
+	net.set_nr_it(10000);
 	net.set_temp(1);
 	net.setEta(0.35);
-	net.setDesiredMse(0.014);
+	net.setDesiredMse(0.012);
 	net.setMomentum(0.9);
 	net.initweights(-0.5, 0.2);
 	net.load_trainning_suite_text_file("./numbers_until_3_trainning_data.txt");

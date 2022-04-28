@@ -254,34 +254,22 @@ void net_feedf::train() {
 	nr_it_used = 0;
 	int index_in_test = 0;
 	for(;nr_it_used < nr_it; nr_it_used++) {
-		index_in_test = 0;
-		while(1) {
-			if (index_in_test < nr_in_suite_trainning) {
-				init_inp(trainning_inp[index_in_test]);
-				tp = trainning_tp[index_in_test];
-				forward();
-				backward();
-				index_in_test++;
-			} else {
-				break;
-			}
+		for(index_in_test = 0; index_in_test < nr_in_suite_trainning; index_in_test++) {
+			init_inp(trainning_inp[index_in_test]);
+			tp = trainning_tp[index_in_test];
+			forward();
+			backward();
 		}
 		LastMse = 0.0;
-		index_in_test = 0;
-		while(1) {
-			if (index_in_test < nr_in_suite_trainning) {
-				init_inp(trainning_inp[index_in_test]);
-				tp = trainning_tp[index_in_test];
-				forward();
-				for (int i = 0; i < N; i++) {
-					LastMse += pow(fabs(out(0,0,i) - tp(0,0,i)),2);
-				}
-				index_in_test++;
-			} else {
-				break;
+		for(index_in_test = 0; index_in_test < nr_in_suite_trainning; index_in_test++) {
+			init_inp(trainning_inp[index_in_test]);
+			tp = trainning_tp[index_in_test];
+			forward();
+			for (int i = 0; i < N; i++) {
+				LastMse += pow(out(0,0,i) - tp(0,0,i),2);
 			}
 		}
-		if (fabs(LastMse/2.0 - DesiredMse) < 0.0001) {
+		if (fabs(LastMse - DesiredMse) < 0.0001) {
 			TRAINED = ON;
 			break;
 		}
