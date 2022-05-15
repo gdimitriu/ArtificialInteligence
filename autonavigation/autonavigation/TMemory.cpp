@@ -31,8 +31,8 @@ CTMemory::~CTMemory()
 	free(m_fname);
 	while(m_mem!=NULL)
 	{
-		m_cmem=m_mem;
-		m_mem=m_mem->next;
+		m_cmem = m_mem;
+		m_mem = m_mem->next;
 		free(*(m_cmem->data));
 		free(m_cmem->data);
 		free(m_cmem);
@@ -41,28 +41,33 @@ CTMemory::~CTMemory()
 
 void CTMemory::SetFileName(char *name)
 {
-	m_fname=(char *)calloc(strlen(name),sizeof(char));
-	m_fname=strcpy(m_fname,name);
+	m_fname = (char *)calloc(strlen(name),sizeof(char));
+	m_fname = strcpy(m_fname,name);
 }
 
 bool CTMemory::Get(unsigned long ***data,unsigned int *type)
 {
-	if(m_cmem==NULL) return false;
-	else
-	{
-		*data=m_cmem->data;
-		*type=m_cmem->type;
-		m_cmem=m_cmem->next;
+	if(m_cmem == NULL)
+		return false;
+	else {
+		*data = m_cmem->data;
+		*type = m_cmem->type;
+		m_cmem = m_cmem->next;
 		return true;
 	}
 }
 
-bool CTMemory::GetEx(unsigned long **data, unsigned int *type)
+bool CTMemory::GetEx(unsigned long *data, unsigned int *type)
 {
-	if(m_cmem==NULL) return false;
-	else
-	{
-		*data=&(m_cmem->data[0][0]);
+	if(m_cmem==NULL)
+		return false;
+	else {
+		int k = 0;
+		for(int i = 0; i < 32; i++)
+			for (int j = 0; j < 32; j++) {
+				data[k] = m_cmem->data[i][j] >> 16;
+				k++;
+			}
 		*type=m_cmem->type;
 		m_cmem=m_cmem->next;
 		return true;
@@ -84,12 +89,12 @@ void CTMemory::Put(char *name)
 	if(m_mem==NULL) m_mem=m_cmem=stemp;
 	else m_mem_q->next=stemp;
 	m_mem_q=stemp;
-	stemp->next=NULL;
+	stemp->next = NULL;
 	stemp->data=(unsigned long **)calloc(32,sizeof(unsigned long *));
 	ptemp=(unsigned long *)calloc(32*32,sizeof(unsigned long));
 	for(i=0;i<32;i++)
 	{
-		stemp->data[i]=ptemp;
+		stemp->data[i] = ptemp;
 		ptemp+=32;
 	}
 	//average window
@@ -182,14 +187,26 @@ void CTMemory::WriteData()
 }
 
 
-void CTMemory::GetDim(unsigned long *dim,unsigned int type)
+void CTMemory::GetDim(unsigned long *dim,unsigned int size)
 {
 	unsigned int i;
-	for(i=0;i<type;i++) dim[i]=0;
+	for(i=0;i<size ;i++)
+		dim[i]=0;
 	m_cmem=m_mem;
 	while(m_cmem!=NULL)
 	{
 		dim[m_cmem->type-1]++;
 		m_cmem=m_cmem->next;
 	}
+}
+
+int CTMemory::GetTotalNr() {
+	int size = 0;
+	m_cmem = m_mem;
+	while (m_cmem != NULL)
+	{
+		size++;
+		m_cmem = m_cmem->next;
+	}
+	return size;
 }
