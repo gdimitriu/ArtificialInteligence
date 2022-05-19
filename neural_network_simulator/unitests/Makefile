@@ -5,7 +5,7 @@ SOURCES = matrixf_test.cpp matrix_test.cpp netfeedf_test.cpp numbersAi_test.cpp
 OBJECTS = $(SOURCES:%_test.cpp=%_test.o)
 HEADERS = # $(SOURCES:%.cpp=%.h)
 GENERAL_DEPENDENCIES = ../matrixf.o ../matrix.o
-NETWORKS =  ../netfeedf.o ../netfeedl.o
+NETWORKS =  ../netfeedf.o ../netfeedl.o ../netfeedft.o ../netfeedftp.o
 FLAGS = -std=gnu++11 -Wno-write-strings
 LIBS = -lgtest -lgtest_main -lpthread -lm
 EXECUTABLES = runTests

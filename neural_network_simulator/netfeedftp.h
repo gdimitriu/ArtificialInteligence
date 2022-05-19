@@ -17,20 +17,15 @@
 class net_feedftp: public net_feedft {
 public:
 	net_feedftp();
-	virtual ~net_feedftp();
-	void friend info_net(int, int, net_feedftp&);
-	virtual int create();
-	virtual void init_inp(matrix&);
-	virtual void init_inpbin(int, float*);
-	virtual void init_net();
+	net_feedftp(int nr_hidd, int L, int M0, int M1, int N, int nr_latinp, int disin, int nr_lath0, int dis0, int nr0, int nr1);
+	virtual ~net_feedftp() {}
 	virtual void forward();
 	virtual void backward();
-	virtual int save(const char *);
-	virtual int load_inf(const char *);
+private:
 	//functia backward pentru 2 nivele ascunse si o singura harta de trasaturi in al noilea nivel ascuns
-	virtual void backward_1();
+	void backward_1();
 	//functia backward pentru 2 nivele ascunse si mai multe harti de trasaturi in al doilea nivel ascuns
-	virtual void backward_2();
+	void backward_2();
 };
 
 #endif /* NETFEEDFTP_H_ */

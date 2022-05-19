@@ -144,8 +144,8 @@ protected:
 	int nr_in_suite_test;
 	matrixf *test_inp;
 	matrixf *test_tp;
-	void saveInternal_inf(int fdescriptor);
-	void loadInternal_inf(int fdescriptor);
+	virtual void saveInternal_inf(int dFile);
+	virtual void loadInternal_inf(int dFile);
 	//caracter pentru tipul de retea feedforward necesar pentru citire de pe disk
 	// % = total connectata
 	// ? = local connectata

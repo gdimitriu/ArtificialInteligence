@@ -47,11 +47,6 @@ net_feedl::net_feedl(int nr_hidd, int L, int M0, int M1, int N, int nr_latinp, i
 	typenet = '?';
 }
 
-net_feedl::~net_feedl() {
-	// TODO Auto-generated destructor stub
-}
-
-
 void net_feedl::forward() {
 	int i,j,k;
 	float val;
@@ -243,7 +238,7 @@ void net_feedl::init_net() {
 			wh10.init(1, M1, nr_lath0*nr_lath0);
 			whin.init(1, M0, nr_latinp*nr_latinp);
 		}
-		dwhin.init(1, M0, L);
+		dwhin.init(1, M0, nr_latinp*nr_latinp);
 		dbhin.init(1, 1, M0);
 		dwh10.init(1, M1, nr_lath0*nr_lath0);
 		bh10.init(1, 1, M1);
@@ -275,22 +270,8 @@ void net_feedl::init_inp(matrixf &inputs) {
 	}
 }
 
-//SAVE-LOADS
-int net_feedl::save(const char *path) {
-	int dFile = open(path, O_CREAT | O_RDWR);
-	chmod(path, S_IRUSR | S_IWUSR);
-	if (dFile <= 0) {
-		perror("Could not open file for write");
-		return -1;
-	}
-	write(dFile, &typenet, sizeof(char));
-	net_feedf::saveInternal_inf(dFile);
-	saveInternal_inf(dFile);
-	close(dFile);
-	return 0;
-}
-
 void net_feedl::saveInternal_inf(int dFile) {
+	net_feedf::saveInternal_inf(dFile);
 	write(dFile,&l,sizeof(int));
 	write(dFile,&nr_latinp,sizeof(int));
 	write(dFile,&disin,sizeof(int));
@@ -300,20 +281,8 @@ void net_feedl::saveInternal_inf(int dFile) {
 	write(dFile,&h1,sizeof(int));
 }
 
-int net_feedl::load_inf(const char* path) {
-	int dFile = open(path,O_RDONLY);
-	if (dFile <= 0) {
-		perror("Could not open file for read");
-		return -1;
-	}
-	read(dFile,&typenet,sizeof(char));
-	net_feedf::loadInternal_inf(dFile);
-	loadInternal_inf(dFile);
-	close(dFile);
-	return 0;
-}
-
 void net_feedl::loadInternal_inf(int dFile) {
+	net_feedf::loadInternal_inf(dFile);
 	read(dFile,&l,sizeof(int));
 	read(dFile,&nr_latinp,sizeof(int));
 	read(dFile,&disin,sizeof(int));

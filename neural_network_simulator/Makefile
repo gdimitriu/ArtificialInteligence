@@ -1,7 +1,7 @@
 CXX = g++
 CC = gcc
 
-SOURCES = matrixf.cpp matrix.cpp netfeedf.cpp netfeedl.cpp
+SOURCES = matrixf.cpp matrix.cpp netfeedf.cpp netfeedl.cpp netfeedft.cpp netfeedftp.cpp
 OBJECTS = $(SOURCES:%.cpp=%.o)
 HEADERS = $(SOURCES:%.cpp=%.h)
 FLAGS = -std=gnu++11

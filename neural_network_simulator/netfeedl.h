@@ -18,19 +18,16 @@ class net_feedl: public net_feedf {
 public:
 	net_feedl();
 	net_feedl(int,int,int,int,int,int,int,int,int);
-	virtual ~net_feedl();
-	void friend info_net(int,int,net_feedl&);
+	virtual ~net_feedl() {}
 	virtual int create();
 	virtual void forward();
 	virtual void init_net();
 	virtual void backward();
 	virtual void init_inp(matrixf& input);
 	virtual void init_inp(matrix& input);
-	virtual int save(const char*);
-	virtual int load_inf(const char*);
 protected:
-	virtual void saveInternal_inf(int fdescriptor);
-	virtual void loadInternal_inf(int fdescriptor);
+	virtual void saveInternal_inf(int dFile);
+	virtual void loadInternal_inf(int dFile);
 	//nivelul de intrare fiind considerat bidimensional se pastreaza dimensiunea patratului
 	int l;
 	//dimensiunea patratului de conexiune la nivelul de intrare
