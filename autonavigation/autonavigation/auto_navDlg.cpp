@@ -356,10 +356,10 @@ void CAuto_navDlg::OnRun()
 			temp=0.0;
 			for(k=0;k<8;k++)
 				for(l=0;l<8;l++)
-					temp+=m_bitmap.data[i*8+k][j*8+l]>>16;
+					temp += m_bitmap.data[i*8 + k][j*8 + l] >> 16;
 			temp=temp/64;
 			ltemp=temp;
-			data[i][j]=(ltemp<<24)>>8;
+			data[i][j] = (ltemp << 24) >>8;
 		}
 	}
 	m_pdirection=m_rbf.Run(&data[0][0]);
@@ -372,8 +372,8 @@ void CAuto_navDlg::OnRun()
 		m_v5=m_rbf.m_y[4];
 	}
 	UpdateData(FALSE);
-//	free(*data);
-//	free(data);
+	free(*data);
+	free(data);
 }
 
 void CAuto_navDlg::OnCreateNN() 

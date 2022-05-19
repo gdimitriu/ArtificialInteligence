@@ -27,30 +27,36 @@ public:
 	virtual ~Crbf();
 	double *m_y;
 protected:
+	void freeTrainingData();
 	fstream m_file;
 	char *m_fname;
 	bool m_training;
 	CTMemory *m_X;
+
+	double* m_u; //output hidden layer
 	double **m_lambda;
-	double **m_d_lambda;
-	double **m_d_lambda_o;
 	double **m_r;
-	double **m_d_r;
-	double **m_d_r_o;
 	double **m_w;
+
+	double** m_d_lambda;
+	double** m_d_lambda_o;
+	double **m_d_r;
+	double **m_d_r_o;	
 	double **m_d_w;
 	double **m_d_w_o;
-	double *m_u;
-	unsigned long *m_x;
+
+	unsigned long** m_xTrainning;
+	unsigned int** m_fTrainning;
 	unsigned int *m_f;
-	unsigned int m_n;
-	unsigned int m_L;
-	unsigned int m_m;
+	unsigned int m_n; //input layer nr
+	unsigned int m_L; //hidden layer nr
+	unsigned int m_m; //output layer nr
 	unsigned int m_type[5];
 	unsigned long *m_dim;
 	double m_alpha;
 	double m_eta;
 	double m_error;
+	unsigned int m_nrElements;
 };
 
 #endif // !defined(AFX_RBF_H__C13AF841_3CB7_11DA_B910_CF5D952B9F0C__INCLUDED_)

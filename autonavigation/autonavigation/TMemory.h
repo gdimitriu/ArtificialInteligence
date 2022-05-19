@@ -16,14 +16,15 @@ using namespace std;
 class CTMemory  
 {
 public:
-	void GetDim(unsigned long *dim,unsigned int type);
+	int GetTotalNr();
+	void GetDim(unsigned long *dim,unsigned int size);
 	void WriteData();
 	void SetType(unsigned int type);
 	void ReadData();
 	void Reset();
 	void Put(char *name);
 	bool Get(unsigned long ***data,unsigned int *type);
-	bool GetEx(unsigned long **data,unsigned int *type);
+	bool GetEx(unsigned long *data,unsigned int *type);
 	void SetFileName(char *name);
 	CTMemory();
 	virtual ~CTMemory();
