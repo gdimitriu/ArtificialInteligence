@@ -1,0 +1,23 @@
+1 Not five stars.
+2 five
+2 stars
+3 five stars
+2 .
+
+3 I like it.
+2 I
+2 it
+3 I like
+3 like it
+2 .
+
+3 I give it five stars.
+2 I
+2 give
+2 it
+2 I give
+2 give it
+2 five
+2 stars
+3 five stars
+2 .

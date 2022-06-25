@@ -1,4 +1,8 @@
-package org.example.corenlp_examples;
+/*
+ * This is an example from the article:
+ * https://blogs.oracle.com/javamagazine/post/java-natural-language-intent-recognition
+ */
+package org.example.corenlp_examples.intention;
 
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.pipeline.Annotation;

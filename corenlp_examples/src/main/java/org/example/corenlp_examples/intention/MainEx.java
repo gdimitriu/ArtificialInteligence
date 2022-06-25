@@ -1,4 +1,4 @@
-package org.example.corenlp_examples;
+package org.example.corenlp_examples.intention;
 
 public class MainEx {
     public static void main(String...args) {
