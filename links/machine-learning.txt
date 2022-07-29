@@ -1,0 +1,42 @@
+### OPEN CV
+https://en.wikipedia.org/wiki/OpenCV
+
+#### RASPBERRY PI 4
+https://qengineering.eu/install-raspberry-64-os.html
+
+https://qengineering.eu/deep-learning-with-opencv-on-raspberry-pi-4.html
+https://qengineering.eu/deep-learning-examples-on-raspberry-32-64-os.html#HandsOn
+https://qengineering.eu/install-gstreamer-1.18-on-raspberry-pi-4.html
+https://qengineering.eu/install-opencv-4.4-on-raspberry-pi-4.html
+https://qengineering.eu/install-opencv-4.5-on-raspberry-pi-4.html
+https://qengineering.eu/install-opencv-lite-on-raspberry-pi.html
+https://github.com/Qengineering/RPi-image
+
+### TENSOR FLOW
+https://www.tensorflow.org/lite/microcontrollers
+https://www.tensorflow.org/?source=%3Aem%3Anw%3Amt%3A%3A%3A%3ARC_WWMK200429P00043%3ANSL400155430
+
+
+#### RASPBERRY PI 4
+https://qengineering.eu/install-tensorflow-2-lite-on-raspberry-pi-4.html
+
+
+#### RASPBERRY PICO
+https://github.com/raspberrypi/pico-tflmicro
+
+### MLFLOW
+https://mlflow.org/?source=:em:nw:mt::::RC_WWMK200429P00043:NSL400155430
+
+### TRIBUO (JAVA)
+https://github.com/oracle/tribuo
+https://github.com/oracle/tribuo/tree/main/tutorials
+
+
+### PYTHON
+https://pytorch.org/
+https://scikit-learn.org/stable/
+
+
+### OTHER
+https://wandb.ai/site
+https://github.com/geoffreydstewart/JavaVsPythonMLlibs
