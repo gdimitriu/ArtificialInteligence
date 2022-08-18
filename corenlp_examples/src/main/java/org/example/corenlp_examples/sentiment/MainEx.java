@@ -25,5 +25,11 @@ public class MainEx {
         } catch (IOException | CsvException ex) {
             ex.printStackTrace();
         }
+
+        text = "I would recommend this book for anyone who wants an introduction to natural language processing. Just finished the book and followed the code all way. I tried the code from the resource web site. I like how it is organized. Well done.";
+        nlpPipeline.getReviewSentiment(text,0.4f);
+
+        text = "The weather in the morning was terrible. We decided to go to the cinema.  Had a great time.";
+        nlpPipeline.getStorySentiment(text);
     }
 }
