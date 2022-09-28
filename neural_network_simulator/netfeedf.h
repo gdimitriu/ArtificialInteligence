@@ -99,6 +99,8 @@ public:
 	void test();
 	//antreneeaza reteaua
 	void train();
+	//update the eta if is necessary
+	virtual void updateEta();
 	//pune valorile tabloului de test completat in cadrul sesiunii de antrenament
 	//intr-un tablou global in care se pot memora max 5 retele
 	void put_perf();

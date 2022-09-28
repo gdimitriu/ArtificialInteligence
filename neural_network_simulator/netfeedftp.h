@@ -1,6 +1,7 @@
 /*
  * netfeedftp.h
- *
+ * retele feedforward cu extractori ierarhici de trasaturi
+ *  si partajarea deplasarilor de scala
  *  Created on: Apr 5, 2022
  *      Author: Gabriel Dimitriu
  *  @Copyright
