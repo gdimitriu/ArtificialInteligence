@@ -5,7 +5,7 @@
  *      Author: Gabriel Dimitriu
  */
 
-#include "matrixf.h"
+#include "include/matrixf.h"
 #include <unistd.h>
 using namespace std;
 

@@ -7,7 +7,7 @@
 
 
 #include <gtest/gtest.h>
-#include "../netfeedf.h"
+#include "../include/netfeedf.h"
 
 
 static int max(matrixf &out) {

@@ -6,10 +6,10 @@
  */
 
 #include <gtest/gtest.h>
-#include "../netfeedf.h"
-#include "../netfeedl.h"
-#include "../netfeedft.h"
-#include "../netfeedftp.h"
+#include "../include/netfeedf.h"
+#include "../include/netfeedl.h"
+#include "../include/netfeedft.h"
+#include "../include/netfeedftp.h"
 
 static int max(matrixf &out) {
 	int index = 0;

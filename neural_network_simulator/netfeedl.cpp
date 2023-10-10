@@ -9,7 +9,7 @@
  *  Editura Albastra, Cluj-Napoca 1995
  */
 
-#include "netfeedl.h"
+#include "include/netfeedl.h"
 #include <stdio.h>
 #include <math.h>
 #include <fcntl.h>

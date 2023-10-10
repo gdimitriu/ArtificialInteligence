@@ -9,7 +9,7 @@
  *  Editura Albastra, Cluj-Napoca 1995
  */
 
-#include "netfeedft.h"
+#include "include/netfeedft.h"
 #include <unistd.h>
 #include <stdlib.h>
 

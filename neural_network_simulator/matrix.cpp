@@ -5,7 +5,7 @@
  *      Author: Gabriel Dimitriu
  */
 
-#include "matrix.h"
+#include "include/matrix.h"
 #include <unistd.h>
 
 matrix::matrix(int dim0, int dim1, int dim2) {

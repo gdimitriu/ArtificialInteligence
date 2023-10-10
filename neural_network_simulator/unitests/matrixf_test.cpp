@@ -5,8 +5,8 @@
  *      Author: Gabriel Dimitriu
  */
 
-#include "../matrixf.h"
-#include "../matrix.h"
+#include "../include/matrixf.h"
+#include "../include/matrix.h"
 
 #include <gtest/gtest.h>
 #include <fstream>

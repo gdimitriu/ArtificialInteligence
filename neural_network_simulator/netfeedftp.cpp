@@ -9,7 +9,7 @@
  *  Editura Albastra, Cluj-Napoca 1995
  */
 
-#include "netfeedftp.h"
+#include "include/netfeedftp.h"
 
 net_feedftp::net_feedftp() {
 	typenet = '*';

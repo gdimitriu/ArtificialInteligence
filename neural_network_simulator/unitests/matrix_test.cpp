@@ -5,7 +5,7 @@
  *      Author: Gabriel Dimitriu
  */
 
-#include "../matrix.h"
+#include "../include/matrix.h"
 
 #include <gtest/gtest.h>
 
