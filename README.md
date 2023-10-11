@@ -12,3 +12,10 @@ https://blogs.oracle.com/javamagazine/post/java-sentiment-analysis-stanford-core
 
 https://blogs.oracle.com/javamagazine/post/java-sentiment-analysis-domain-specific-phrases
 
+# Neural network simulator
+
+This is a rewrite (with UI) of :
+
+Retele neuronale artficiale by Gavril Toderean, Mircea Costeiu, Mircea Giurgiu Editura Albastra, Cluj-Napoca 1995
+
+![NNS Trainning UI](neural_network_simulator/docs/run_tests_ui.jpg)
