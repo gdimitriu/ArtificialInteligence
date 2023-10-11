@@ -21,10 +21,14 @@ public:
     ~NeuralNetworkSimulator();
 
 private slots:
-    void openTrainingFile();
+    void openTrainingSuiteFile();
     void openRunFile();
+    void openTestSuiteFile();
     void createNetwork();
     void startTrainning();
+    void startRunning();
+    void openNetworkFile();
+    void saveNetworkFile();
 
 private:
     Ui::NeuralNetworkSimulator *ui;
@@ -37,11 +41,24 @@ private:
     bool checkNetfeedft();
     bool checkTrainningData();
 
-    QAction *openTrainningFileAction;
+    QAction *openTrainningSuiteFileAction;
+    QAction *openTesSuitetFileAction;
     QAction *openRunFileAction;
     QMenu *fileMenu;
 
+    QAction *openNetworkFileAction;
+    QAction *saveNetworkFileAction;
+    QMenu *networkMenu;
+
+    void initDefaults();
+
     net_feedf *network;
+    enum FILE_TYPE {
+        TRAINING_SUITE,
+        TEST_SUITE,
+        RUN_FILE,
+        NETWORK
+    } fileType;
 };
 
 #endif // NEURALNETWORKSIMULATOR_H

@@ -14,13 +14,13 @@
    <string>NeuralNetworkSimulator</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>7</x>
-      <y>7</y>
-      <width>734</width>
-      <height>417</height>
+      <x>1</x>
+      <y>0</y>
+      <width>855</width>
+      <height>483</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout">
@@ -112,7 +112,10 @@
        <item>
         <widget class="QLabel" name="label_18">
          <property name="text">
-          <string>Trainning/Running File</string>
+          <string>File</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
          </property>
         </widget>
        </item>
@@ -122,6 +125,19 @@
           <bool>true</bool>
          </property>
         </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_19">
+         <property name="text">
+          <string>Neuron activation</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="activationTemp"/>
        </item>
        <item>
         <widget class="QPushButton" name="trainningButton">
@@ -141,8 +157,41 @@
      </item>
      <item>
       <widget class="QPlainTextEdit" name="outputDisplay">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>381</width>
+         <height>481</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>381</width>
+         <height>481</height>
+        </size>
+       </property>
+       <property name="acceptDrops">
+        <bool>false</bool>
+       </property>
        <property name="toolTip">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Output of the network simulation or run.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="verticalScrollBarPolicy">
+        <enum>Qt::ScrollBarAlwaysOn</enum>
+       </property>
+       <property name="horizontalScrollBarPolicy">
+        <enum>Qt::ScrollBarAlwaysOn</enum>
+       </property>
+       <property name="undoRedoEnabled">
+        <bool>false</bool>
+       </property>
+       <property name="lineWrapMode">
+        <enum>QPlainTextEdit::NoWrap</enum>
        </property>
        <property name="readOnly">
         <bool>true</bool>
@@ -391,6 +440,30 @@
   <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <tabstops>
+  <tabstop>networkType</tabstop>
+  <tabstop>nrOfInputs</tabstop>
+  <tabstop>nrOfOutputs</tabstop>
+  <tabstop>nrOfHiddenLevels</tabstop>
+  <tabstop>nrOfHidden1</tabstop>
+  <tabstop>nrOfHidden2</tabstop>
+  <tabstop>dimInputRectangle</tabstop>
+  <tabstop>distInputRect</tabstop>
+  <tabstop>dimConnectionRect</tabstop>
+  <tabstop>distConnRect</tabstop>
+  <tabstop>nrOfMapsFirstLevel</tabstop>
+  <tabstop>nrOfMapsSecondLevel</tabstop>
+  <tabstop>createButton</tabstop>
+  <tabstop>nrOfIterations</tabstop>
+  <tabstop>eta</tabstop>
+  <tabstop>mseError</tabstop>
+  <tabstop>momentum</tabstop>
+  <tabstop>inputFile</tabstop>
+  <tabstop>activationTemp</tabstop>
+  <tabstop>trainningButton</tabstop>
+  <tabstop>runButton</tabstop>
+  <tabstop>outputDisplay</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
