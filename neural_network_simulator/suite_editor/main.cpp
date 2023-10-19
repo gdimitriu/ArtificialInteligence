@@ -1,10 +1,10 @@
-#include "suite_editor.h"
+#include "suiteeditor.h"
 #include <QApplication>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    suite_editor w;
+    SuiteEditor w;
     w.show();
 
     return a.exec();

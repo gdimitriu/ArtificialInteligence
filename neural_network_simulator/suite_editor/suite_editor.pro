@@ -25,10 +25,17 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        suite_editor.cpp
+    suiteeditor.cpp \
+    imagedata.cpp
 
 HEADERS += \
-        suite_editor.h
+    suiteeditor.h \
+    imagedata.h
 
 FORMS += \
         suite_editor.ui
+
+unix:!macx: LIBS += -L$$PWD/../build-number_editor_plugin-Desktop-Debug/ -lNumberEditorPlugin
+
+INCLUDEPATH += $$PWD/../number_editor_plugin
+DEPENDPATH += $$PWD/../number_editor_plugin
