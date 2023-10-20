@@ -1,4 +1,27 @@
+/*
+ * suiteeditor.cpp
+ *
+ *  @Copyright 2023 Gabriel Dimitriu
+ * All rights reserved.
+ *
+ * This file is part of Neural Network Simulator project.
+
+ * Neural Network Simulator is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+
+ * Neural Network Simulator is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with Neural Network Simulator; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ */
 #include <QFileDialog>
+#include <QMessageBox>
 #include <cmath>
 #include <fstream>
 
@@ -42,6 +65,8 @@ void SuiteEditor::createActions()
     connect(ui->previousButton, SIGNAL(clicked(bool)), this, SLOT(previousImage()));
 
     connect(ui->newButton, SIGNAL(clicked(bool)), this, SLOT(newElement()));
+    connect(ui->deleteButton, SIGNAL(clicked(bool)), this, SLOT(deleteElement()));
+    connect(ui->addButton, SIGNAL(clicked(bool)), this, SLOT(addElement()));
 
     openSuiteAction = new QAction(tr("&Open Suite"), this);
     openSuiteAction->setShortcut(tr("Ctrl+O"));
@@ -140,6 +165,10 @@ void SuiteEditor::openSuite() {
 void SuiteEditor::saveSuite() {
     if ( suiteList.isEmpty() )
         return;
+    if ( ui->inputFile->text().isEmpty() ) {
+        QMessageBox::critical(this, tr("Please do first Save As or provide a fileName"), tr("Please provide a file name to be saved"), QMessageBox::Yes, QMessageBox::No);
+        return;
+    }
     std::ofstream file;
     file.open(ui->inputFile->text().toStdString().c_str(), std::ios::trunc);
     file<<suiteList.size()<<std::endl;
@@ -157,15 +186,17 @@ void SuiteEditor::saveAsSuite() {
 
 void SuiteEditor::newSuite() {
     clearSuiteList();
-    currentIndex = 0;
+    currentIndex = -1;
     ui->currentIndex->clear();
     ui->expectedValue->clear();
     ui->numberEditor->clearImage();
 }
 
 void SuiteEditor::gotoHome() {
-    if ( suiteList.isEmpty() )
+    if ( suiteList.isEmpty() ) {
+        ui->numberEditor->clearImage();
         return;
+    }
     currentImage = suiteList.begin();
     currentIndex = 0;
     ui->currentIndex->clear();
@@ -219,16 +250,16 @@ void SuiteEditor::previousImage() {
 
 bool **SuiteEditor::allocate_matrix(unsigned int dim) {
     bool **m = new bool*[dim]();
-    for (unsigned int i = 0; i < dim; i++) {
+    for ( unsigned int i = 0; i < dim; i++ ) {
         m[i] = new bool[dim]();
     }
     return m;
 }
 
 void SuiteEditor::free_mat(bool **m, unsigned int dim) {
-    if (m == 0)
+    if ( m == nullptr )
         return;
-    for (unsigned int i = 0; i < dim; i++) {
+    for ( unsigned int i = 0; i < dim; i++ ) {
         delete[] m[i];
     }
     delete[] m;
@@ -238,6 +269,29 @@ void SuiteEditor::newElement() {
     ui->currentIndex->clear();
     ui->expectedValue->clear();
     ui->numberEditor->clearImage();
-    currentIndex = suiteList.size() + 1;
+    currentIndex = suiteList.size();
     ui->currentIndex->insert(QString::number(currentIndex));
+    ui->numberEditor->setDim(sqrt(ui->nrInputs->text().toInt()));
+}
+
+void SuiteEditor::addElement() {
+    ImageData *img = new ImageData();
+    img->setMatrixDim(ui->numberEditor->getDim());
+    img->setMatrix(ui->numberEditor->getImage());
+    img->setExpectedDim(ui->nrOutputs->text().toInt());
+    img->setExpectedValue(ui->expectedValue->text().toInt());
+    suiteList.append(img);
+    currentImage = suiteList.end();
+    currentImage--;
+}
+
+void SuiteEditor::deleteElement() {
+    if ( currentIndex > (suiteList.size() - 1) ) {
+        ui->numberEditor->clearImage();
+        return;
+    }
+    suiteList.erase(currentImage);
+    free_mat((*currentImage)->getMatrix(), (*currentImage)->getMatrixDim());
+    delete *currentImage;
+    gotoHome();
 }
