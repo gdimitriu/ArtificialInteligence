@@ -25,7 +25,7 @@
 #define SUITEEDITOR_H
 
 #include <QMainWindow>
-#include <QList>
+#include <QLinkedList>
 #include <QMenu>
 #include <QAction>
 
@@ -67,8 +67,8 @@ private:
     QAction *saveAsSuiteAction;
     QAction *newSuiteAction;
 
-    QList<ImageData *> suiteList;
-    QList<ImageData *>::iterator currentImage;
+    QLinkedList<ImageData *> suiteList;
+    QLinkedList<ImageData *>::iterator currentImage;
     int currentIndex;
 
     void clearSuiteList();

@@ -48,7 +48,7 @@ SuiteEditor::~SuiteEditor()
 }
 
 void SuiteEditor::clearSuiteList() {
-    for ( QList<ImageData *>::iterator iterator = suiteList.begin(); iterator != suiteList.end(); ++iterator) {
+    for ( QLinkedList<ImageData *>::iterator iterator = suiteList.begin(); iterator != suiteList.end(); ++iterator) {
         ImageData *image = *iterator;
         free_mat(image->getMatrix(), image->getMatrixDim());
     }
@@ -172,7 +172,7 @@ void SuiteEditor::saveSuite() {
     std::ofstream file;
     file.open(ui->inputFile->text().toStdString().c_str(), std::ios::trunc);
     file<<suiteList.size()<<std::endl;
-    for ( QList<ImageData *>::iterator it = suiteList.begin(); it != suiteList.end(); ++it )
+    for ( QLinkedList<ImageData *>::iterator it = suiteList.begin(); it != suiteList.end(); ++it )
         file<<*(*it);
     file.close();
 }
@@ -290,8 +290,15 @@ void SuiteEditor::deleteElement() {
         ui->numberEditor->clearImage();
         return;
     }
+    QLinkedList<ImageData *>::iterator tmpIt = currentImage + 1;
+    currentIndex++;
     suiteList.erase(currentImage);
     free_mat((*currentImage)->getMatrix(), (*currentImage)->getMatrixDim());
     delete *currentImage;
-    gotoHome();
+    currentImage = tmpIt;
+    ui->currentIndex->clear();
+    ui->currentIndex->insert(QString::number(currentIndex));
+    ui->numberEditor->setImage((*currentImage)->getMatrix());
+    ui->expectedValue->clear();
+    ui->expectedValue->insert(QString::number((*currentImage)->getExpectedValue()));
 }

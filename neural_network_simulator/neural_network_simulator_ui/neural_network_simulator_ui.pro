@@ -25,7 +25,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        neuralnetworksimulator.cpp
+        neuralnetworksimulator.cpp \
+    ../number_editor_plugin/numbereditor.cpp
 
 HEADERS += \
         neuralnetworksimulator.h \
@@ -34,12 +35,16 @@ HEADERS += \
     ../include/netfeedf.h \
     ../include/netfeedft.h \
     ../include/netfeedftp.h \
-    ../include/netfeedl.h
+    ../include/netfeedl.h \
+    ../number_editor_plugin/numbereditor.h
 
 FORMS += \
         neuralnetworksimulator.ui
 
-unix:!macx: LIBS += -L$$PWD/../lib/ -lneuralnetwork
+unix:!macx: LIBS += -L$$PWD/../lib/ -lneuralnetwork -L$$PWD/../build-number_editor_plugin-Desktop-Debug/ -lNumberEditorPlugin
 
 INCLUDEPATH += $$PWD/../include
 DEPENDPATH += $$PWD/../include
+
+INCLUDEPATH += $$PWD/../number_editor_plugin
+DEPENDPATH += $$PWD/../number_editor_plugin

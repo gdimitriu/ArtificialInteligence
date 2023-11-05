@@ -74,6 +74,9 @@ private:
     QMenu *networkMenu;
 
     void initDefaults();
+    int maxVector(matrixf *outputs);
+    bool **allocate_matrix(unsigned int dim);
+    void free_mat(bool **m, unsigned int dim);
 
     net_feedf *network;
     enum FILE_TYPE {

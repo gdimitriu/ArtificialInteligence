@@ -26,23 +26,12 @@
 
 #include <QFileDialog>
 #include <QMessageBox>
+#include <math.h>
 
 #include "../include/netfeedf.h"
 #include "../include/netfeedl.h"
 #include "../include/netfeedft.h"
 #include "../include/netfeedftp.h"
-
-static int max(matrixf &out) {
-    int index = 0;
-    float maxim = out(0, 0, 0);
-    for (int i = 1; i < out.d2(); i++) {
-        if (maxim < out(0, 0, i)) {
-            maxim = out(0, 0, i);
-            index = i;
-        }
-    }
-    return index;
-}
 
 NeuralNetworkSimulator::NeuralNetworkSimulator(QWidget *parent) :
     QMainWindow(parent),
@@ -384,5 +373,74 @@ void NeuralNetworkSimulator::startRunning() {
             }
         }
         network->del_test_suite();
+    } else if ( RUN_FILE == fileType ) {
+        std::ifstream runFile;
+        runFile.open(const_cast<char *>(ui->inputFile->text().toStdString().c_str()));
+        matrixf inputs;
+        inputs.load_text(runFile);
+        network->init_inp(inputs);
+        network->forward();
+        matrixf &outputs = network->get_outputs();
+        ui->outputDisplay->appendPlainText("Output vector:");
+        for (int i = 0; i < outputs.d0(); i++) {
+            for (int j = 0; j < outputs.d1(); j++) {
+                QString str;
+                for (int k = 0; k < outputs.d2(); k++) {
+                    str.append(QString::number(outputs(i,j,k)) + " ");
+                }
+                ui->outputDisplay->appendPlainText(str);
+            }
+        }
+        runFile.close();
+        int pos = maxVector(&outputs);
+        ui->predictedOutput->clear();
+        ui->predictedOutput->setText(QString::number(pos));
+        int dim3 = inputs.d2();
+        dim3 = sqrt(dim3);
+        bool **matrix = allocate_matrix(dim3);
+        for ( int j = 0; j < dim3; j++ ) {
+            for ( int k = 0; k < dim3; k++) {
+                if ( inputs(0,0,j*dim3 + k) == 1) {
+                    matrix[k][j] = true;
+                } else {
+                    matrix[k][j] = false;
+                }
+            }
+        }
+        ui->numberEditor->setImage(matrix);
+        free_mat(matrix, dim3);
     }
+}
+
+int NeuralNetworkSimulator::maxVector(matrixf *outputs) {
+    float max = 0.0;
+    int pos = 0;
+    for (int i = 0; i < outputs->d0(); i++) {
+        for (int j = 0; j < outputs->d1(); j++) {
+            for (int k = 0; k < outputs->d2(); k++) {
+                if ( max < (*outputs)(i,j,k) ) {
+                    pos = k;
+                    max = (*outputs)(i,j,k);
+                }
+            }
+        }
+    }
+    return pos;
+}
+
+bool **NeuralNetworkSimulator::allocate_matrix(unsigned int dim) {
+    bool **m = new bool*[dim]();
+    for ( unsigned int i = 0; i < dim; i++ ) {
+        m[i] = new bool[dim]();
+    }
+    return m;
+}
+
+void NeuralNetworkSimulator::free_mat(bool **m, unsigned int dim) {
+    if ( m == nullptr )
+        return;
+    for ( unsigned int i = 0; i < dim; i++ ) {
+        delete[] m[i];
+    }
+    delete[] m;
 }
