@@ -25,6 +25,7 @@
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>       /* time */
 #include <cmath>
+#include <memory>
 
 Perceptron::Perceptron() : nrOfInputs(0), threshold(0)
 {
@@ -72,19 +73,24 @@ void Perceptron::init(int size)
 
 bool Perceptron::training(std::vector<std::vector<float>>& trainingData, std::vector<float>& outputs, long nrIterations,float learningRate)
 {
+	//number of the forms that was correct trained and classification in seprationAproximation vector
+	int nrB = 0;
+	std::vector<float> separationAproximation;
+
 	srand(time(NULL));
 
 	init(trainingData[0].size());
+	std::copy(weights.begin(), weights.end(), std::back_inserter(separationAproximation));
 
-	int nrIterrCorrect;
-	bool correct = true;
 	float realThreshold = -threshold;
-	long i;
+	long i, n;
 	int nrOfReset = 10;
 	reinitilization:
-	for ( i = 0; i < nrIterations; ++i )
-	{
-		correct = true;
+	std::cout<<"Start training"<<std::endl;
+	std::cout.flush();
+	i = 0;
+	n = 0;
+	do {
 		for ( int j = 0; j < trainingData.size(); ++j )
 		{
 			float val = 0.0f;
@@ -108,23 +114,37 @@ bool Perceptron::training(std::vector<std::vector<float>>& trainingData, std::ve
 						weights[k] += learningRate*trainingData[j][k];
 				}
 				realThreshold += learningRate*outputs[j];
-				correct = false;
-				nrIterrCorrect = 0;
+				if ( n == 0 )
+				{
+					++i;
+					continue;
+				}
+				if ( n > nrB )
+				{
+					nrB = n;
+					++i;
+					separationAproximation.clear();
+					std::copy(weights.begin(), weights.end(), std::back_inserter(separationAproximation));
+				}
+			}
+			else
+			{
+				++n;
+				++i;
+				continue;
 			}
 		}
-		if ( correct == true )
-		{
-			++nrIterrCorrect;
-		}
-		if ( nrIterrCorrect == trainingData.size() )
+		if ( nrB == trainingData.size() )
 			break;
-	}
-	if ( i == nrIterations && nrOfReset != 0)
+	} while( i < nrIterations );
+
+	if ( i >= nrIterations && nrOfReset != 0)
 	{
 		init(trainingData[0].size());
 		realThreshold = -threshold;
-		nrIterrCorrect = 0;
-		correct = true;
+		nrB = 0;
+		separationAproximation.clear();
+		std::copy(weights.begin(), weights.end(), std::back_inserter(separationAproximation));
 		--nrOfReset;
 		goto reinitilization;
 	}
@@ -142,7 +162,7 @@ bool Perceptron::training(std::vector<std::vector<float>>& trainingData, std::ve
 	}
 	std::cout<<" Threshold = "<<threshold<<std::endl;
 	std::cout.flush();
-	if ( nrOfReset == 0 )
+	if ( i >= nrIterations && nrOfReset == 0 )
 		return false;
 	return true;
 }

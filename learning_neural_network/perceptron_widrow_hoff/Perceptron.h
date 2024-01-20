@@ -27,15 +27,14 @@
 
 class Perceptron {
 public:
-	Perceptron();
+	Perceptron(float thresholdIn = 0.0f);
 	Perceptron(std::vector<float>&& weightsIn, float thresholdIn);
 	virtual ~Perceptron();
 	float compute(std::vector<float>& values);
-	bool training(std::vector<std::vector<float>>& trainingData, std::vector<float>& outputs,long nrIterations, float learningRate);
+	bool training(std::vector<std::vector<float>>& trainingData, std::vector<float>& outputs,long nrIterations, float lms, float learningRate, bool constantRate);
 protected:
 	virtual float outputFunction(float in);
 private:
-	void init(int size);
 	int nrOfInputs;
 	std::vector<float> weights;
 	float threshold;

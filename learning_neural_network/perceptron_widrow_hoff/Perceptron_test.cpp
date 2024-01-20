@@ -53,7 +53,7 @@ int main(int argc, char **argv)
 	{
 		std::cerr<<"Call with "<<argv[0]<<" trainning_file test_file"<<std::endl;
 	}
-	Perceptron *neuron = new Perceptron();
+	Perceptron *neuron = new Perceptron(0.5);
 	std::fstream trainingFile(argv[1]);
 	std::fstream testFile(argv[2]);
 	if ( trainingFile.fail() )
@@ -69,7 +69,7 @@ int main(int argc, char **argv)
 	std::vector<std::vector<float>> trainingData;
 	std::vector<float> expectedOutput;
 	readFile(trainingFile, trainingData, expectedOutput);
-	bool trained = neuron->training(trainingData, expectedOutput, 10000, 1);
+	bool trained = neuron->training(trainingData, expectedOutput, 10000, 0.2, 0.001, true);
 	if ( !trained )
 		std::cerr<<"Network could not be trained!"<<std::endl;
 	std::vector<std::vector<float>> testData;
