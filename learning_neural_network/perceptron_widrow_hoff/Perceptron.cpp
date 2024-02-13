@@ -61,7 +61,6 @@ bool Perceptron::training(std::vector<std::vector<float>>& trainingData, std::ve
 		long nrIterations, float lms, float learningRate, bool constantRate)
 {
 	float realLearningRate = learningRate;
-	std::vector<float> outputsNow;
 	float currentLMS;
 	srand(time(NULL));
 	for ( int i =  0; i < trainingData[0].size(); ++i )
@@ -73,12 +72,10 @@ bool Perceptron::training(std::vector<std::vector<float>>& trainingData, std::ve
 	std::cout.flush();
 	for ( long i = 0; i < nrIterations; ++i )
 	{
-		outputsNow.clear();
 		currentLMS = 0.0;
 		for ( int j = 0; j < trainingData.size(); ++j )
 		{
 			float val = compute(trainingData[j]);
-			outputsNow.push_back(val);
 			float delta = outputs[j] - val;
 			if ( fabs(delta) >= 0.0001  )
 			{

@@ -26,7 +26,7 @@
 #include <fstream>
 #include <cmath>
 
-void readFile(std::fstream& file, std::vector<std::vector<float>>& data, std::vector<float>& expected)
+void readFile(std::fstream& file, std::vector<std::vector<float>>& data, std::vector<std::vector<float>>& expected)
 {
 	int nrOfVectors;
 	file>>nrOfVectors;
@@ -43,7 +43,9 @@ void readFile(std::fstream& file, std::vector<std::vector<float>>& data, std::ve
 		}
 		data.push_back(std::move(d1));
 		file>>val;
-		expected.push_back(val);
+		std::vector<float> outputs;
+		outputs.push_back(val);
+		expected.push_back(std::move(outputs));
 	}
 }
 
@@ -53,10 +55,24 @@ int main(int argc, char **argv)
 	{
 		std::cerr<<"Call with "<<argv[0]<<" trainning_file test_file"<<std::endl;
 	}
+/*
+ * 1 hidden layer for xor
+ */
+/*
 	std::vector<unsigned int> layers(3);
 	layers[0] = 2;
 	layers[1] = 2;
 	layers[2] = 1;
+*/
+/*
+ * no hidden layer for or and and
+ */
+
+	std::vector<unsigned int> layers(2);
+	layers[0] = 2;
+	layers[1] = 1;
+
+
 	MultiLayerPerceptron *mlp = new MultiLayerPerceptron(layers);
 	std::fstream trainingFile(argv[1]);
 	std::fstream testFile(argv[2]);
@@ -71,19 +87,29 @@ int main(int argc, char **argv)
 		exit(-1);
 	}
 	std::vector<std::vector<float>> trainingData;
-	std::vector<float> expectedOutput;
+	std::vector<std::vector<float>> expectedOutput;
 	readFile(trainingFile, trainingData, expectedOutput);
-	bool trained = mlp->training(trainingData, expectedOutput, 10000, 0.2, 0.001, true);
+	bool trained = false;
+	int i = 0;
+	for ( ; i < 100; ++i ) {
+		trained = mlp->training(trainingData, expectedOutput, 10000, 0.2, 0.001, 1.0, false);
+		if ( trained )
+			break;
+	}
 	if ( !trained )
 		std::cerr<<"Network could not be trained!"<<std::endl;
+	else
+		std::cout<<"Network trained after "<<i<<" tries."<<std::endl;
+
+	mlp->printData();
 	std::vector<std::vector<float>> testData;
-	std::vector<float> output;
+	std::vector<std::vector<float>> output;
 	readFile(testFile, testData, output);
 	for ( int i  = 0; i < testData.size(); ++i )
 	{
 		std::vector<float> rez = mlp->execute(testData[i]);
-		if ( fabs(rez[0] - output[i]) >= 0.0001 ) {
-			std::cout<<"Test "<<i<<" had failed with value "<<rez[0]<<" when expected value was "<<output[i]<<std::endl;
+		if ( fabs(rez[0] - output[i][0]) >= 0.0001 ) {
+			std::cout<<"Test "<<i<<" had failed with value "<<rez[0]<<" when expected value was "<<output[i][0]<<std::endl;
 		}
 	}
 	trainingFile.close();
