@@ -16,13 +16,14 @@ matrixf::matrixf(int dim0, int dim1) {
 	allocate_matrix();
 }
 
-matrixf::matrixf(matrixf &origMatrix) {
+matrixf::matrixf(const matrixf &origMatrix) {
 	this->dim0 = origMatrix.dim0;
 	this->dim1 = origMatrix.dim1;
 	allocate_matrix();
 	for ( int i = 0; i < dim0; i++ )
-		for ( int j = 0; j < dim1; j++ )
-			this->m[i][j] = origMatrix(i, j);
+		for ( int j = 0; j < dim1; j++ ) {
+			this->m[i][j] = origMatrix.m[i][j];
+		}
 }
 
 void matrixf::init(int dim0, int dim1) {

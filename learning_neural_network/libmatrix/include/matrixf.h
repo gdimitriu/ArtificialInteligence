@@ -23,7 +23,7 @@ public:
 		dim1 = 0;
 		error_value = 0.0;
 	};
-	matrixf(matrixf&);
+	matrixf(const matrixf&);
 	matrixf(int, int);
 	void init(int,int);
 	void printData();
