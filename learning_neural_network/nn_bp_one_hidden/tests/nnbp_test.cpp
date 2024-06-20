@@ -21,7 +21,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "../MultiLayerPerceptron.h"
+#include "../NNBP1Hidden.h"
 #include <iostream>
 #include <fstream>
 #include <cmath>
@@ -56,24 +56,15 @@ int main(int argc, char **argv)
 		std::cerr<<"Call with "<<argv[0]<<" trainning_file test_file"<<std::endl;
 	}
 /*
- * 1 hidden layer for xor
+ * 1 hidden layer with 4 neurons for xor
  */
-/*
+
 	std::vector<unsigned int> layers(3);
 	layers[0] = 2;
 	layers[1] = 4;
 	layers[2] = 1;
-*/
-/*
- * no hidden layer for or and and
- */
 
-	std::vector<unsigned int> layers(2);
-	layers[0] = 2;
-	layers[1] = 1;
-
-
-	MultiLayerPerceptron *mlp = new MultiLayerPerceptron(layers, 0, 1);
+	NNBP1Hidden *mlp = new NNBP1Hidden(layers);
 	std::fstream trainingFile(argv[1]);
 	std::fstream testFile(argv[2]);
 	if ( trainingFile.fail() )
@@ -92,7 +83,7 @@ int main(int argc, char **argv)
 	bool trained = false;
 	int i = 0;
 	for ( ; i < 100; ++i ) {
-		trained = mlp->training(trainingData, expectedOutput, 10000, 0.002, 0.5, 1.0, true);
+		trained = mlp->training(trainingData, expectedOutput, 10000, 0.02, 0.5, 1.0, true);
 		if ( trained )
 			break;
 	}

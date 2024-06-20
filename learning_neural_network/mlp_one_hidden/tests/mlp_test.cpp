@@ -21,10 +21,10 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "../MultiLayerPerceptron.h"
 #include <iostream>
 #include <fstream>
 #include <cmath>
+#include "../MLP1Hidden.h"
 
 void readFile(std::fstream& file, std::vector<std::vector<float>>& data, std::vector<std::vector<float>>& expected)
 {
@@ -58,22 +58,13 @@ int main(int argc, char **argv)
 /*
  * 1 hidden layer for xor
  */
-/*
+
 	std::vector<unsigned int> layers(3);
 	layers[0] = 2;
-	layers[1] = 4;
+	layers[1] = 2;
 	layers[2] = 1;
-*/
-/*
- * no hidden layer for or and and
- */
 
-	std::vector<unsigned int> layers(2);
-	layers[0] = 2;
-	layers[1] = 1;
-
-
-	MultiLayerPerceptron *mlp = new MultiLayerPerceptron(layers, 0, 1);
+	MLP1Hidden *mlp = new MLP1Hidden(layers);
 	std::fstream trainingFile(argv[1]);
 	std::fstream testFile(argv[2]);
 	if ( trainingFile.fail() )

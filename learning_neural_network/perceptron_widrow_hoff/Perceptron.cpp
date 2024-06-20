@@ -46,7 +46,7 @@ float Perceptron::outputFunction(float in)
 	if ( in > threshold )
 		return 1;
 	else if ( in < threshold )
-		return 0;
+		return -1;
 	return 1;
 }
 float Perceptron::compute(std::vector<float>& inputs)

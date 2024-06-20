@@ -15,8 +15,8 @@
 MultiLayerPerceptron::MultiLayerPerceptron(std::vector<unsigned int>& layers, float biasIn, float thresholdIn ) : nrOfNeuronsByLayer(layers) {
 	netWeigths.reserve(nrOfNeuronsByLayer.size());
 	biases.reserve(nrOfNeuronsByLayer.size());
-	for ( unsigned int i = 0; i <= nrOfNeuronsByLayer.size() - 2; ++i ) {
-		matrixf current(nrOfNeuronsByLayer[i + 1], nrOfNeuronsByLayer[i]);
+	for ( unsigned int i = 1; i < nrOfNeuronsByLayer.size(); ++i ) {
+		matrixf current(nrOfNeuronsByLayer[i - 1], nrOfNeuronsByLayer[i]);
 		netWeigths.push_back(current);
 	}
 	for ( unsigned int i = 1; i < nrOfNeuronsByLayer.size(); ++i ) {
@@ -45,12 +45,12 @@ MultiLayerPerceptron::~MultiLayerPerceptron() {
 void MultiLayerPerceptron::init_random() {
 	srand(time(NULL));
 	for ( unsigned int i = 0; i < netWeigths.size(); ++i ) {
-		netWeigths[i].init_rand(-1, 2);
+		netWeigths[i].init_rand(-0.1, 0.1);
 	}
 	if ( threshold == 0.0f ) {
 		for ( unsigned int i = 0; i < biases.size(); ++i ) {
 			for ( unsigned int j = 0; j < biases[i].size(); ++j ) {
-				biases[i][j] = -1+2*rand()/(float)RAND_MAX;
+				biases[i][j] = -0.1+0.2*rand()/(float)RAND_MAX;
 			}
 		}
 	} else {
@@ -72,8 +72,8 @@ bool MultiLayerPerceptron::training(std::vector<std::vector<float>>& trainingDat
 	std::vector<std::vector<float>> delta;
 	std::vector<std::vector<float>> dbiases;
 	//delta for weights
-	for ( unsigned int i = 0; i <= nrOfNeuronsByLayer.size() - 2; ++i ) {
-		matrixf current(nrOfNeuronsByLayer[i + 1], nrOfNeuronsByLayer[i]);
+	for ( unsigned int i = 1; i <= nrOfNeuronsByLayer.size(); ++i ) {
+		matrixf current(nrOfNeuronsByLayer[i - 1], nrOfNeuronsByLayer[i]);
 		dnetWeigths.push_back(current);
 	}
 	//delta for neurons
@@ -89,6 +89,9 @@ bool MultiLayerPerceptron::training(std::vector<std::vector<float>>& trainingDat
 
 	float realLearningRate = learningRate;
 	for ( long i = 0; i < nrIterations; ++i ) {
+		if ( !constantRate ) {
+			realLearningRate = 1.0/(i + 1);
+		}
 		for ( int j = 0; j < trainingData.size(); ++j ) {
 			//forward
 			std::vector<std::vector<float>> outputs;
@@ -105,6 +108,7 @@ bool MultiLayerPerceptron::training(std::vector<std::vector<float>>& trainingDat
 				}
 				outputs.push_back(output);
 			}
+
 			//backpropagation
 			std::vector<matrixf> oldnetWeigths(netWeigths);
 			//out -> previous layer (hidden or inp)
@@ -121,12 +125,13 @@ bool MultiLayerPerceptron::training(std::vector<std::vector<float>>& trainingDat
 				biases[layer][neuron] += deltab + momentum * dbiases[layer][neuron];
 				dbiases[layer][neuron] = deltab;
 			}
+
 			//rest of the layers
 			for ( int layer = netWeigths.size() - 2; layer >= 0; --layer) {
 				for ( int neuron = 0; neuron < netWeigths[layer].d0(); ++neuron ) {
 					delta[layer][neuron] = 0.0f;
 					for ( int prevNeuron = 0; prevNeuron < netWeigths[layer + 1].d0(); ++prevNeuron ) {
-						delta[layer][neuron] += delta[layer + 1][prevNeuron] * oldnetWeigths[layer](prevNeuron, neuron);
+						delta[layer][neuron] += delta[layer + 1][prevNeuron] * oldnetWeigths[layer](neuron, prevNeuron);
 					}
 					delta[layer][neuron] *= outputFunctionDerivate(outputs, layer + 1, neuron);
 					for ( int prevNeuron = 0; prevNeuron < netWeigths[layer].d1(); ++prevNeuron ) {
@@ -222,7 +227,8 @@ float MultiLayerPerceptron::outputFunctionDerivate(std::vector<std::vector<float
 	if ( activationType == 0 ) {
 		return 1.0;
 	} else if ( activationType == 1) {
-		return (outputs[layer][neuron] * (1.0 - outputs[layer][neuron]))/threshold;
+		//return (outputs[layer][neuron] * (1.0 - outputs[layer][neuron]))/threshold;
+		return outputFunction(outputs[layer][neuron]) * ( 1 - outputFunction(outputs[layer][neuron]))/threshold;
 	}
 	return 1.0;
 }

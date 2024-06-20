@@ -118,7 +118,6 @@ void matrixf::printData() {
 	for ( int i = 0; i < dim0; i++ ) {
 		for ( int j = 0; j < dim1; j++ ) {
 			cout<<m[i][j]<<" ";
-			cout<<endl;
 		}
 		cout<<endl;
 	}
